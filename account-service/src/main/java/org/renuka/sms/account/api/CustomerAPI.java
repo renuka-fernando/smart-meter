@@ -1,5 +1,6 @@
 package org.renuka.sms.account.api;
 
+import org.renuka.sms.account.entity.Customer;
 import org.renuka.sms.account.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,10 +18,7 @@ public class CustomerAPI {
     }
 
     @GetMapping
-    public String hello() {
-        return customerService.hello();
+    public Iterable<Customer> getCustomers() {
+        return customerService.getCustomers();
     }
 }
-
-
-
