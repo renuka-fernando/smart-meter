@@ -6,108 +6,57 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import java.util.Date;
 
 @Entity
-@Table(name = "customer")
+@Table(name = "consumption")
 public class Reading {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "password")
-    private String password;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "timestamp")
+    private Date timestamp;
 
-    @Column(name = "fname")
-    private String fname;
+    @Column(name = "reading")
+    private double reading;
 
-    @Column(name = "lname")
-    private String lname;
+    @Column(name = "account_id")
+    private Long account_id;
 
-    @Column(name = "email")
-    private String email;
-
-    @Column(name = "contact_no")
-    private String contactNo;
-
-    @Column(name = "address_line1")
-    private String address_line1;
-
-    @Column(name = "address_line2")
-    private String address_line2;
-
-    @Column(name = "city")
-    private String city;
-
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getPassword() {
-        return password;
+    public Date getTimestamp() {
+        return timestamp;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
     }
 
-    public String getFname() {
-        return fname;
+    public double getReading() {
+        return reading;
     }
 
-    public void setFname(String fname) {
-        this.fname = fname;
+    public void setReading(double reading) {
+        this.reading = reading;
     }
 
-    public String getLname() {
-        return lname;
+    public Long getAccount_id() {
+        return account_id;
     }
 
-    public void setLname(String lname) {
-        this.lname = lname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getContactNo() {
-        return contactNo;
-    }
-
-    public void setContactNo(String contactNo) {
-        this.contactNo = contactNo;
-    }
-
-    public String getAddress_line1() {
-        return address_line1;
-    }
-
-    public void setAddress_line1(String address_line1) {
-        this.address_line1 = address_line1;
-    }
-
-    public String getAddress_line2() {
-        return address_line2;
-    }
-
-    public void setAddress_line2(String address_line2) {
-        this.address_line2 = address_line2;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
+    public void setAccount_id(Long account_id) {
+        this.account_id = account_id;
     }
 }

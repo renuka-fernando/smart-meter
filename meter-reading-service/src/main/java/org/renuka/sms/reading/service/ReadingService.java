@@ -15,5 +15,6 @@ public class ReadingService {
     }
 
     public void addReading(Reading reading) {
+        readingRepository.save(reading);
     }
 }

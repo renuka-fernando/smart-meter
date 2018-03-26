@@ -308,26 +308,6 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 
--- -----------------------------------------------------
--- Table `SMART_METER_ACCOUNT`.`usage`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS SMART_METER_ACCOUNT.`usage` (
-  `id` INT(11) NOT NULL,
-  `date` DATE NULL DEFAULT NULL,
-  `time` TIME NULL DEFAULT NULL,
-  `usage` DOUBLE NULL DEFAULT NULL,
-  `Account_id` INT(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_Usage_Account1_idx` (`Account_id` ASC),
-  CONSTRAINT `fk_Usage_Account1`
-    FOREIGN KEY (`Account_id`)
-    REFERENCES SMART_METER_ACCOUNT.`account` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
-
-
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
