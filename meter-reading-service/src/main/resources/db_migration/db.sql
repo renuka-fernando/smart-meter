@@ -5,20 +5,20 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 -- -----------------------------------------------------
--- Schema SMART_METER
+-- Schema SMART_METER_USAGE
 -- -----------------------------------------------------
-DROP SCHEMA IF EXISTS `SMART_METER` ;
+DROP SCHEMA IF EXISTS SMART_METER_USAGE ;
 
 -- -----------------------------------------------------
--- Schema SMART_METER
+-- Schema SMART_METER_USAGE
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `SMART_METER` DEFAULT CHARACTER SET utf8 ;
-USE `SMART_METER` ;
+CREATE SCHEMA IF NOT EXISTS SMART_METER_USAGE DEFAULT CHARACTER SET utf8 ;
+USE SMART_METER_USAGE ;
 
 -- -----------------------------------------------------
--- Table `SMART_METER`.`payment`
+-- Table `SMART_METER_USAGE`.`payment`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `SMART_METER`.`payment` (
+CREATE TABLE IF NOT EXISTS SMART_METER_USAGE.`payment` (
   `id` INT NOT NULL,
   `date` DATE NULL,
   `amount` DOUBLE NULL,
@@ -27,9 +27,9 @@ CREATE TABLE IF NOT EXISTS `SMART_METER`.`payment` (
 
 
 -- -----------------------------------------------------
--- Table `SMART_METER`.`customer`
+-- Table `SMART_METER_USAGE`.`customer`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `SMART_METER`.`rate_type` (
+CREATE TABLE IF NOT EXISTS SMART_METER_USAGE.`rate_type` (
   `id` INT(11) NOT NULL,
   `type` VARCHAR(30) NULL DEFAULT NULL,
   `RateTypecol` VARCHAR(45) NULL DEFAULT NULL,
@@ -39,9 +39,9 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `SMART_METER`.`account_type`
+-- Table `SMART_METER_USAGE`.`account_type`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `SMART_METER`.`account_type` (
+CREATE TABLE IF NOT EXISTS SMART_METER_USAGE.`account_type` (
   `id` INT(11) NOT NULL,
   `type` VARCHAR(30) NULL DEFAULT NULL,
   `RateType_id` INT(11) NOT NULL,
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `SMART_METER`.`account_type` (
   INDEX `fk_AccountType_RateType1_idx` (`RateType_id` ASC),
   CONSTRAINT `fk_AccountType_RateType1`
     FOREIGN KEY (`RateType_id`)
-    REFERENCES `SMART_METER`.`rate_type` (`id`)
+    REFERENCES SMART_METER_USAGE.`rate_type` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -57,9 +57,9 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `SMART_METER`.`customer`
+-- Table `SMART_METER_USAGE`.`customer`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `SMART_METER`.`customer` (
+CREATE TABLE IF NOT EXISTS SMART_METER_USAGE.`customer` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `password` VARCHAR(30) NULL DEFAULT NULL,
   `fname` VARCHAR(45) NULL DEFAULT NULL,
@@ -75,9 +75,9 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `SMART_METER`.`enterprise_user_type`
+-- Table `SMART_METER_USAGE`.`enterprise_user_type`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `SMART_METER`.`enterprise_user_type` (
+CREATE TABLE IF NOT EXISTS SMART_METER_USAGE.`enterprise_user_type` (
   `id` INT(11) NOT NULL,
   `type` VARCHAR(30) NULL DEFAULT NULL,
   `EnterpriseUserTypecol` VARCHAR(45) NULL DEFAULT NULL,
@@ -87,9 +87,9 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `SMART_METER`.`province`
+-- Table `SMART_METER_USAGE`.`province`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `SMART_METER`.`province` (
+CREATE TABLE IF NOT EXISTS SMART_METER_USAGE.`province` (
   `id` INT(11) NOT NULL,
   `name` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
@@ -98,9 +98,9 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `SMART_METER`.`district`
+-- Table `SMART_METER_USAGE`.`district`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `SMART_METER`.`district` (
+CREATE TABLE IF NOT EXISTS SMART_METER_USAGE.`district` (
   `id` INT(11) NOT NULL,
   `name` VARCHAR(45) NULL DEFAULT NULL,
   `province_id` INT(11) NOT NULL,
@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `SMART_METER`.`district` (
   INDEX `fk_district_province1_idx` (`province_id` ASC),
   CONSTRAINT `fk_district_province1`
     FOREIGN KEY (`province_id`)
-    REFERENCES `SMART_METER`.`province` (`id`)
+    REFERENCES SMART_METER_USAGE.`province` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -116,9 +116,9 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `SMART_METER`.`city`
+-- Table `SMART_METER_USAGE`.`city`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `SMART_METER`.`city` (
+CREATE TABLE IF NOT EXISTS SMART_METER_USAGE.`city` (
   `id` INT(11) NOT NULL,
   `zip_code` INT(11) NULL DEFAULT NULL,
   `name` VARCHAR(100) NULL DEFAULT NULL,
@@ -127,7 +127,7 @@ CREATE TABLE IF NOT EXISTS `SMART_METER`.`city` (
   INDEX `fk_city_district1_idx` (`dist_id` ASC),
   CONSTRAINT `fk_city_district1`
     FOREIGN KEY (`dist_id`)
-    REFERENCES `SMART_METER`.`district` (`id`)
+    REFERENCES SMART_METER_USAGE.`district` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -135,9 +135,9 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `SMART_METER`.`branch`
+-- Table `SMART_METER_USAGE`.`branch`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `SMART_METER`.`branch` (
+CREATE TABLE IF NOT EXISTS SMART_METER_USAGE.`branch` (
   `id` INT(11) NOT NULL,
   `code` VARCHAR(20) NULL DEFAULT NULL,
   `name` VARCHAR(45) NULL DEFAULT NULL,
@@ -146,7 +146,7 @@ CREATE TABLE IF NOT EXISTS `SMART_METER`.`branch` (
   INDEX `fk_branch_city1_idx` (`city_id` ASC),
   CONSTRAINT `fk_branch_city1`
     FOREIGN KEY (`city_id`)
-    REFERENCES `SMART_METER`.`city` (`id`)
+    REFERENCES SMART_METER_USAGE.`city` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -154,9 +154,9 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `SMART_METER`.`normal_consumption`
+-- Table `SMART_METER_USAGE`.`normal_consumption`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `SMART_METER`.`normal_consumption` (
+CREATE TABLE IF NOT EXISTS SMART_METER_USAGE.`normal_consumption` (
   `id` INT(11) NOT NULL,
   `day` INT(11) NULL DEFAULT NULL,
   `time` INT(11) NULL DEFAULT NULL COMMENT 'I',
@@ -166,7 +166,7 @@ CREATE TABLE IF NOT EXISTS `SMART_METER`.`normal_consumption` (
   INDEX `fk_normal_consumption_account1_idx` (`account_id` ASC),
   CONSTRAINT `fk_normal_consumption_account1`
     FOREIGN KEY (`account_id`)
-    REFERENCES `SMART_METER`.`account` (`id`)
+    REFERENCES SMART_METER_USAGE.`account` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -174,9 +174,9 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `SMART_METER`.`enterprie_user`
+-- Table `SMART_METER_USAGE`.`enterprie_user`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `SMART_METER`.`enterprie_user` (
+CREATE TABLE IF NOT EXISTS SMART_METER_USAGE.`enterprie_user` (
   `id` INT(11) NOT NULL,
   `employeeNo` VARCHAR(20) NULL DEFAULT NULL,
   `password` VARCHAR(30) NULL DEFAULT NULL,
@@ -192,17 +192,17 @@ CREATE TABLE IF NOT EXISTS `SMART_METER`.`enterprie_user` (
   INDEX `fk_enterprie_user_branch1_idx` (`branch_b_id` ASC),
   CONSTRAINT `fk_EnterprieUser_EnterpriseUserType1`
     FOREIGN KEY (`EnterpriseUserType_id`)
-    REFERENCES `SMART_METER`.`enterprise_user_type` (`id`)
+    REFERENCES SMART_METER_USAGE.`enterprise_user_type` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_enterprie_user_branch1`
     FOREIGN KEY (`branch_b_id`)
-    REFERENCES `SMART_METER`.`branch` (`id`)
+    REFERENCES SMART_METER_USAGE.`branch` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_enterprie_user_normal_consumption1`
     FOREIGN KEY (`normal_consumption_id`)
-    REFERENCES `SMART_METER`.`normal_consumption` (`id`)
+    REFERENCES SMART_METER_USAGE.`normal_consumption` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -210,9 +210,9 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `SMART_METER`.`account`
+-- Table `SMART_METER_USAGE`.`account`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `SMART_METER`.`account` (
+CREATE TABLE IF NOT EXISTS SMART_METER_USAGE.`account` (
   `id` INT(11) NOT NULL,
   `accountNo` VARCHAR(20) NULL DEFAULT NULL,
   `password` VARCHAR(30) NULL DEFAULT NULL,
@@ -230,17 +230,17 @@ CREATE TABLE IF NOT EXISTS `SMART_METER`.`account` (
   INDEX `fk_Account_EnterprieUser1_idx` (`EnterprieUser_id` ASC),
   CONSTRAINT `fk_Account_AccountType1`
     FOREIGN KEY (`AccountType_id`)
-    REFERENCES `SMART_METER`.`account_type` (`id`)
+    REFERENCES SMART_METER_USAGE.`account_type` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Account_Client1`
     FOREIGN KEY (`customer_id`)
-    REFERENCES `SMART_METER`.`customer` (`id`)
+    REFERENCES SMART_METER_USAGE.`customer` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Account_EnterprieUser1`
     FOREIGN KEY (`EnterprieUser_id`)
-    REFERENCES `SMART_METER`.`enterprie_user` (`id`)
+    REFERENCES SMART_METER_USAGE.`enterprie_user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -249,9 +249,9 @@ COMMENT = '			';
 
 
 -- -----------------------------------------------------
--- Table `SMART_METER`.`payment`
+-- Table `SMART_METER_USAGE`.`payment`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `SMART_METER`.`payment` (
+CREATE TABLE IF NOT EXISTS SMART_METER_USAGE.`payment` (
   `id` INT(11) NOT NULL,
   `date` DATE NULL DEFAULT NULL,
   `amount` DOUBLE NULL DEFAULT NULL,
@@ -261,9 +261,9 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `SMART_METER`.`bill`
+-- Table `SMART_METER_USAGE`.`bill`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `SMART_METER`.`bill` (
+CREATE TABLE IF NOT EXISTS SMART_METER_USAGE.`bill` (
   `id` INT(11) NOT NULL,
   `date` DATE NULL DEFAULT NULL,
   `amount` DOUBLE NULL DEFAULT NULL,
@@ -274,12 +274,12 @@ CREATE TABLE IF NOT EXISTS `SMART_METER`.`bill` (
   INDEX `fk_Bill_Account1_idx` (`Account_id` ASC),
   CONSTRAINT `fk_Bill_Account1`
     FOREIGN KEY (`Account_id`)
-    REFERENCES `SMART_METER`.`account` (`id`)
+    REFERENCES SMART_METER_USAGE.`account` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Bill_Payment`
     FOREIGN KEY (`Payment_id`)
-    REFERENCES `SMART_METER`.`payment` (`id`)
+    REFERENCES SMART_METER_USAGE.`payment` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -287,9 +287,9 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `SMART_METER`.`rate`
+-- Table `SMART_METER_USAGE`.`rate`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `SMART_METER`.`rate` (
+CREATE TABLE IF NOT EXISTS SMART_METER_USAGE.`rate` (
   `id` INT(11) NOT NULL,
   `name` VARCHAR(45) NULL DEFAULT NULL,
   `lower` DOUBLE NULL DEFAULT NULL,
@@ -301,7 +301,7 @@ CREATE TABLE IF NOT EXISTS `SMART_METER`.`rate` (
   INDEX `fk_Rate_RateType1_idx` (`RateType_id` ASC),
   CONSTRAINT `fk_Rate_RateType1`
     FOREIGN KEY (`RateType_id`)
-    REFERENCES `SMART_METER`.`rate_type` (`id`)
+    REFERENCES SMART_METER_USAGE.`rate_type` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -309,9 +309,9 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `SMART_METER`.`usage`
+-- Table `SMART_METER_USAGE`.`usage`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `SMART_METER`.`usage` (
+CREATE TABLE IF NOT EXISTS SMART_METER_USAGE.`usage` (
   `id` INT(11) NOT NULL,
   `date` DATE NULL DEFAULT NULL,
   `time` TIME NULL DEFAULT NULL,
@@ -321,7 +321,7 @@ CREATE TABLE IF NOT EXISTS `SMART_METER`.`usage` (
   INDEX `fk_Usage_Account1_idx` (`Account_id` ASC),
   CONSTRAINT `fk_Usage_Account1`
     FOREIGN KEY (`Account_id`)
-    REFERENCES `SMART_METER`.`account` (`id`)
+    REFERENCES SMART_METER_USAGE.`account` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -336,7 +336,7 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- Data for table `SMART_METER`.`province`
 -- -----------------------------------------------------
 START TRANSACTION;
-USE `SMART_METER`;
+USE SMART_METER_USAGE;
 INSERT INTO `province` (`id`, `name`) VALUES (1, 'Western');
 INSERT INTO `province` (`id`, `name`) VALUES (2, 'Southern');
 INSERT INTO `province` (`id`, `name`) VALUES (3, 'East');
@@ -348,7 +348,7 @@ COMMIT;
 -- Data for table `SMART_METER`.`district`
 -- -----------------------------------------------------
 START TRANSACTION;
-USE `SMART_METER`;
+USE SMART_METER_USAGE;
 INSERT INTO `district` (`id`, `name`, `province_id`) VALUES (1, 'Colombo', 1);
 INSERT INTO `district` (`id`, `name`, `province_id`) VALUES (2, 'Kalutara', 1);
 INSERT INTO `district` (`id`, `name`, `province_id`) VALUES (3, 'Gampaha', 1);
@@ -363,7 +363,7 @@ COMMIT;
 -- Data for table `SMART_METER`.`city`
 -- -----------------------------------------------------
 START TRANSACTION;
-USE `SMART_METER`;
+USE SMART_METER_USAGE;
 INSERT INTO `city` (`id`, `zip_code`, `name`, `dist_id`) VALUES (1, 12500, 'Panadura', 2);
 INSERT INTO `city` (`id`, `zip_code`, `name`, `dist_id`) VALUES (2, 15000, 'Bandaragama', 2);
 INSERT INTO `city` (`id`, `zip_code`, `name`, `dist_id`) VALUES (3, 11000, 'Moratuwa', 1);
@@ -377,7 +377,7 @@ COMMIT;
 -- Data for table `SMART_METER`.`customer`
 -- -----------------------------------------------------
 START TRANSACTION;
-USE `SMART_METER`;
+USE SMART_METER_USAGE;
 INSERT INTO `customer` (`id`, `password`, `lname`, `fname`, `email`, `contact_no`, `address_line1`, `address_line2`, `city`) VALUES (1, '123', 'Fernando', 'Renuka', 'renuka@gmail.com', '076', '132', 'Ramukka', 'Banda');
 
 COMMIT;
