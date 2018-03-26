@@ -18,9 +18,8 @@ public class Reading {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "timestamp")
-    private Date timestamp;
+    private Long timestamp;
 
     @Column(name = "reading")
     private double reading;
@@ -36,11 +35,11 @@ public class Reading {
         this.id = id;
     }
 
-    public Date getTimestamp() {
+    public Long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(Long timestamp) {
         this.timestamp = timestamp;
     }
 

@@ -44,6 +44,15 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.apache.commons/commons-crypto &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.apache.commons</groupId>-->
+            <!--<artifactId>commons-crypto</artifactId>-->
+            <!--<version>1.0.0</version>-->
+        <!--</dependency>-->
+
+
+
         <!--<dependency>-->
             <!--<groupId>org.springframework.boot</groupId>-->
             <!--<artifactId>spring-boot-configuration-processor</artifactId>-->

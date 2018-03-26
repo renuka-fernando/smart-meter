@@ -20,7 +20,7 @@ USE SMART_METER_USAGE ;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS SMART_METER_USAGE.consumption (
   `id` INT(11) NOT NULL,
-  `timestamp` DATETIME NULL DEFAULT NULL,
+  `timestamp` BIGINT NULL DEFAULT NULL,
   `reading` DOUBLE NULL DEFAULT NULL,
   account_id INT(11) NOT NULL,
   PRIMARY KEY (`id`))
