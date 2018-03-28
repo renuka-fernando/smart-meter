@@ -79,6 +79,11 @@
             <version>${io.springfox.version}</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.renuka.smart-meter</groupId>
+            <artifactId>common</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>

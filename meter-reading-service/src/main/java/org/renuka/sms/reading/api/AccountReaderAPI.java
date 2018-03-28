@@ -41,7 +41,7 @@ public class AccountReaderAPI {
         if (result != null) {
             URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                     .buildAndExpand(result.getId()).toUri();
-            return ResponseEntity.created(location).build();
+            return ResponseEntity.created(location).body(result);
         } else {
             return ResponseEntity.badRequest().build();
         }
