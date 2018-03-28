@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -26,9 +27,25 @@ public class ReadingService {
             return null;
     }
 
-    public Iterable<Reading> getReadings(Long accountId, Long timestampFrom, Long timestampTo) {
-        if (timestampFrom == null) timestampFrom = new Date().getTime() - ReadingConstants.ONE_DAY_MI_SECONDS;
-        if (timestampTo == null) timestampTo = new Date().getTime();
+    public Iterable<Reading> getAccountReadings(Long accountId, Long timestampFrom, Long timestampTo) {
+        if (timestampFrom == null) timestampFrom = getDefaultTimestampFrom();
+        if (timestampTo == null) timestampTo = getDefaultTimestampTo();
         return readingRepository.findByAccount(accountId, timestampFrom, timestampTo);
     }
+
+    public Iterable<Reading> getReadings(List<Long> accountIdList, Long timestampFrom, Long timestampTo) {
+        if (timestampFrom == null) timestampFrom = getDefaultTimestampFrom();
+        if (timestampTo == null) timestampTo = getDefaultTimestampTo();
+        return readingRepository.findByListOfAccounts(accountIdList, timestampFrom, timestampTo);
+    }
+
+    private Long getDefaultTimestampFrom() {
+        return new Date().getTime() - ReadingConstants.ONE_DAY_MI_SECONDS;
+    }
+
+    private Long getDefaultTimestampTo() {
+        return new Date().getTime();
+    }
+
+
 }
