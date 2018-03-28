@@ -17,7 +17,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>1.8</java.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <!--<jsonwebtoken.version>0.7.0</jsonwebtoken.version>-->
         <io.springfox.version>2.6.1</io.springfox.version>
     </properties>
@@ -42,6 +43,13 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>log4j-over-slf4j</artifactId>
+            <version>1.7.24</version>
         </dependency>
 
         <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.apache.commons/commons-crypto &ndash;&gt;-->
@@ -87,6 +95,11 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${io.springfox.version}</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.renuka.smart-meter</groupId>
+            <artifactId>common</artifactId>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 

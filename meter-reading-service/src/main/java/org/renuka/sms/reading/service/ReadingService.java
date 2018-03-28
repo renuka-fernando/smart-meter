@@ -1,5 +1,7 @@
 package org.renuka.sms.reading.service;
 
+import org.renuka.sms.common.exception.ExceptionCodes;
+import org.renuka.sms.common.exception.SmsResourceNotFoundException;
 import org.renuka.sms.reading.constants.ReadingConstants;
 import org.renuka.sms.reading.entity.Reading;
 import org.renuka.sms.reading.repository.ReadingRepository;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class ReadingService {
@@ -48,4 +51,13 @@ public class ReadingService {
     }
 
 
+    public Reading getAccountReadingById(Long accountId, Long readId) throws SmsResourceNotFoundException {
+        Optional<Reading> result = readingRepository.findById(readId);
+        if (result.isPresent() && result.get().getAccount_id().equals(accountId)) {
+            return result.get();
+        } else {
+            throw new SmsResourceNotFoundException("Reading not found : " + readId,
+                    ExceptionCodes.METER_READING_NOT_FOUND);
+        }
+    }
 }
