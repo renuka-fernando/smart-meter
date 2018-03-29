@@ -9,7 +9,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class BillGeneratorService implements Runnable {
-    Logger logger = LoggerFactory.getLogger(BillGeneratorService.class);
+    private Logger logger = LoggerFactory.getLogger(BillGeneratorService.class);
 
     public BillGeneratorService(String... args) {
     }
@@ -19,6 +19,7 @@ public class BillGeneratorService implements Runnable {
         logger.info("BILL GENERATOR SERVICE: Started");
 
         ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
+        // TODO: Read from config
         executorService.scheduleAtFixedRate(new Generator(), 0, 1000, TimeUnit.MILLISECONDS);
     }
 
@@ -26,7 +27,7 @@ public class BillGeneratorService implements Runnable {
 
         @Override
         public void run() {
-            logger.info("BILL GENERATOR SERVICE: {}", new Date().toString());
+            logger.info("BILL GENERATOR SERVICE: Start generating Bills");
         }
     }
 }
