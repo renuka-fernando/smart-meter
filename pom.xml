@@ -15,5 +15,6 @@
         <module>gateway</module>
         <module>account-service</module>
         <module>meter-reading-service</module>
+        <module>payment-service</module>
     </modules>
 </project>
