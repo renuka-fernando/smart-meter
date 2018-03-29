@@ -11,4 +11,6 @@ public interface CustomerRepository extends CrudRepository<Customer, Long> {
 
     Page<Customer> findAll(Pageable pageable);
 
+    Page<Customer> findCustomerByFnameContainsAndLnameContains(String fname, String lname, Pageable pageable);
+
 }

@@ -39,8 +39,10 @@ public class CustomerAPI {
     @GetMapping
     public ResponseEntity<Page<Customer>> getCustomers(
             @RequestParam(value = "page", required = false) Integer page,
-            @RequestParam(value = "size", required = false) Integer size) {
-        return ResponseEntity.ok(customerService.getCustomers(page, size));
+            @RequestParam(value = "size", required = false) Integer size,
+            @RequestParam(value = "fname", required = false) String fname,
+            @RequestParam(value = "lname", required = false) String lname) {
+        return ResponseEntity.ok(customerService.getCustomers(page, size, fname, lname));
     }
 
     @RequestMapping(method = RequestMethod.POST)

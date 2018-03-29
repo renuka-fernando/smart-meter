@@ -20,8 +20,13 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public Page<Customer> getCustomers(Integer page, Integer size) {
-        return customerRepository.findAll(PageRequest.of(page, size));
+    public Page<Customer> getCustomers(Integer page, Integer size, String fname, String lname) {
+        if (page == null) page = 0;
+        if (size == null) size = 20;
+        if (fname == null) fname = "";
+        if (lname == null) lname = "";
+        return customerRepository.findCustomerByFnameContainsAndLnameContains(fname, lname,
+                PageRequest.of(page, size));
     }
 
     public Customer addCustomer(Customer customer) {

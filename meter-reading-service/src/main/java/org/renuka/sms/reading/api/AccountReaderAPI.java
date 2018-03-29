@@ -50,8 +50,8 @@ public class AccountReaderAPI {
     @GetMapping
     public ResponseEntity<Iterable<Reading>> getAccountReadings(
             @PathVariable("accountId") Long accountId,
-            @RequestParam(value = "dateFrom", required = false) Long timestampFrom,
-            @RequestParam(value = "dateTo", required = false) Long timestampTo) {
+            @RequestParam(value = "timestampFrom", required = false) Long timestampFrom,
+            @RequestParam(value = "timestampTo", required = false) Long timestampTo) {
         return ResponseEntity.ok(readingService.getAccountReadings(accountId, timestampFrom, timestampTo));
     }
 
