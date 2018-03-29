@@ -38,10 +38,10 @@ public class CustomerAPI {
 
     @GetMapping
     public ResponseEntity<Page<Customer>> getCustomers(
-            @RequestParam(value = "page", required = false) Integer page,
-            @RequestParam(value = "size", required = false) Integer size,
-            @RequestParam(value = "fname", required = false) String fname,
-            @RequestParam(value = "lname", required = false) String lname) {
+            @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+            @RequestParam(value = "size", required = false, defaultValue = "20") Integer size,
+            @RequestParam(value = "fname", required = false, defaultValue = "") String fname,
+            @RequestParam(value = "lname", required = false, defaultValue = "") String lname) {
         return ResponseEntity.ok(customerService.getCustomers(page, size, fname, lname));
     }
 
