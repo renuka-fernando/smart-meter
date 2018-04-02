@@ -1,0 +1,63 @@
+html, body {
+    height: 100%;
+}
+
+.login-flex-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: #ebf2f5;
+    margin: auto;
+}
+.login-flex-container .login-main-content {
+    flex: 1;
+    align-items: flex-start;
+    justify-content: center;
+}
+.login-flex-container .login-main-content .branding {
+    padding:20px;
+    background: none;
+}
+.login-flex-container .login-main-content .login-form {
+    padding:20px;
+}
+.login-flex-container .login-footer {
+    flex-basis: 50px;
+    text-align: center;
+    background: #efefef;
+}
+.login-form-submit{
+    margin-top:30px;
+    margin-right: 4px;
+}
+.logo{
+    width:3em;
+    float: right;
+}
+.brand-name{
+    padding-right: 4px;
+}
+.login-paper{
+    border-left: 2px solid #07bcf1;
+}
+#react-root{
+    height: 100%;
+}
+
+
+@media (max-width: 601px){
+    .login-flex-container .login-main-content .login-form {
+        width: 100%;
+        min-height: 100%;
+        align-self: flex-start;
+    }
+    .login-paper{
+        align-items: flex-start;
+        display: flex;
+        width: 100%;
+        height: 100%;
+    }
+    .login-flex-container .login-footer {
+        background: #fff;
+    }
+}
