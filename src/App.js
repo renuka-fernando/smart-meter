@@ -3,6 +3,7 @@ import './App.css';
 import Login from "./components/Login/Login";
 import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
 import AuthManager from "./data/AuthManager";
+import Base from "./components/Base/Base";
 
 class App extends Component {
     render() {
@@ -20,7 +21,13 @@ class App extends Component {
 class Protected extends Component{
     render(){
         if(AuthManager.getUser()){
-            return <div>This is a protected content</div>;
+            return (
+                <Base>
+                    <Switch>
+                        <Redirect exact from='/' to='/apis' />
+                    </Switch>
+                </Base>
+            );
         }
         return <Redirect to="/login"/>;
     }

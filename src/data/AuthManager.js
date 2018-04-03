@@ -5,7 +5,12 @@ import * as Qs from "qs";
 
 class AuthManager {
     static getUser() {
-        return false;
+        const userData = localStorage.getItem(`${User.CONST.LOCAL_STORAGE_USER}`);
+        if (!userData) {
+            return {name: 'Renuka'};
+        }
+
+        return User.fromJson(JSON.parse(userData));
     }
 
     static authenticateUser(username, password) {
