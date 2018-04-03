@@ -7,7 +7,7 @@ class AuthManager {
     static getUser() {
         const userData = localStorage.getItem(`${User.CONST.LOCAL_STORAGE_USER}`);
         if (!userData) {
-            return {name: 'Renuka'};
+            return {name: 'Renuka', type: 'admin'};
         }
 
         return User.fromJson(JSON.parse(userData));

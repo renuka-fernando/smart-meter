@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Button, FormControl, Grid, IconButton, Paper, Snackbar, TextField, Typography} from "material-ui";
 import CloseIcon from 'material-ui-icons/Close';
-import AuthManager from "../../data/AuthManager";
+import AuthManager from "../data/AuthManager";
 
 import './login.css';
 
