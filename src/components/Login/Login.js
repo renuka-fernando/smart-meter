@@ -40,20 +40,13 @@ class Login extends Component {
         }
 
         const loginPromise = AuthManager.authenticateUser(username, password);
-        loginPromise
-            .then((response) => {
-                this.setState({isLogin: AuthManager.getUser()});
-                this.authManager.handleAutoLoginEnvironments(
-                    response.data.idToken,
-                    this.state.environments,
-                    this.state.authConfigs,
-                );
-            })
-            .catch((error) => {
-                this.setState({messageOpen: true});
-                this.setState({message: error});
-                console.log(error);
-            });
+        loginPromise.then((response) => {
+            this.setState({isLogin: AuthManager.getUser()});
+        }).catch((error) => {
+            this.setState({message: error.message});
+            this.setState({messageOpen: true});
+            console.log(error);
+        });
     };
 
     render() {
