@@ -4,6 +4,7 @@ import Login from "./components/Login/Login";
 import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
 import AuthManager from "./data/AuthManager";
 import Base from "./components/Base/Base";
+import PageNotFound from "./components/Base/Errors/PageNotfound";
 
 class App extends Component {
     render() {
@@ -25,6 +26,7 @@ class Protected extends Component{
                 <Base>
                     <Switch>
                         <Redirect exact from='/' to='/apis' />
+                        <Route component={PageNotFound} />
                     </Switch>
                 </Base>
             );

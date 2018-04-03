@@ -24,7 +24,6 @@ import InfoIcon from 'material-ui-icons/Info';
 import Button from 'material-ui/Button';
 import Popover from 'material-ui/Popover';
 
-import Utils from '../../data/Utils';
 import AuthManager from '../../data/AuthManager.js';
 
 const drawerWidth = 240;
@@ -236,8 +235,8 @@ class Layout extends React.Component {
                                 anchorEl={this.state.anchorEl}
                                 onClose={() => this.handleRequestClose('openPopA')}
                                 anchorOrigin={{
-                                    vertical: 'bottom',
-                                    horizontal: 'center',
+                                    vertical: 'top',
+                                    horizontal: 'right',
                                 }}
                                 transformOrigin={{
                                     vertical: 'top',
@@ -281,8 +280,8 @@ class Layout extends React.Component {
                                 anchorEl={this.state.anchorEl}
                                 onClose={() => this.handleRequestClose('openPopB')}
                                 anchorOrigin={{
-                                    vertical: 'bottom',
-                                    horizontal: 'left',
+                                    vertical: 'top',
+                                    horizontal: 'right',
                                 }}
                                 transformOrigin={{
                                     vertical: 'top',
@@ -361,7 +360,7 @@ class Layout extends React.Component {
                                         <ListItemIcon>
                                             <Games />
                                         </ListItemIcon>
-                                        <ListItemText primary='Endpoints' />
+                                        <ListItemText primary='Branches' />
                                     </ListItem>
                                 </Link>
                             </List>
