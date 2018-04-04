@@ -5,9 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
+import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 public class PaymentServiceApplication {
@@ -21,8 +23,14 @@ public class PaymentServiceApplication {
     }
 
     @Bean
-    public CommandLineRunner schedulingRunner(TaskExecutor taskExecutor) {
-        return args -> taskExecutor.execute(new BillGeneratorService(args));
+    public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) {
+        return restTemplateBuilder.build();
+    }
+
+    @Autowired
+    public CommandLineRunner schedulingRunner(TaskExecutor taskExecutor,
+                                              RestTemplate restTemplate) {
+        return args -> taskExecutor.execute(new BillGeneratorService(restTemplate, args));
     }
 
 }
