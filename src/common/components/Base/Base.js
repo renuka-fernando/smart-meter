@@ -57,6 +57,8 @@ const styles = theme => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
+        color: theme.palette.text.primary,
+        backgroundColor: theme.palette.background.appBar,
     },
     appBarShift: {
         marginLeft: drawerWidth,
@@ -141,6 +143,7 @@ const styles = theme => ({
         marginTop: 0,
         marginLeft: 30,
         marginRight: 5,
+        color: theme.palette.text.primary,
     },
     brand: {
         textDecoration: 'none',
@@ -172,7 +175,6 @@ class Layout extends React.Component {
     handleClickButton = (key) => {
         this.setState({
             [key]: true,
-            // anchorEl: findDOMNode(this.button), // TODO: Remove the findDOMNode usage with proper way ~tmkb
         });
     };
 
@@ -213,6 +215,7 @@ class Layout extends React.Component {
                                     Smart Meter
                                 </Typography>
                             </Link>
+
                             <Input
                                 placeholder='Search Apis'
                                 className={classes.input}
@@ -258,7 +261,7 @@ class Layout extends React.Component {
                             </Popover>
                             {/* Theme menu */}
                             <IconButton
-                                color='default'
+                                color='inherit'
                                 className={classes.button}
                                 aria-label='Change theme'
                                 onClick={() => this.props.setTheme()}
@@ -338,7 +341,7 @@ class Layout extends React.Component {
                                         />
                                     </IconButton>
                                     <Typography type='title' color='inherit' className={classes.brandText}>
-                                        API PUBLISHER
+                                        Smart Meter
                                     </Typography>
                                 </Link>
                                 <IconButton onClick={this.handleDrawerClose}>
