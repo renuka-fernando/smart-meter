@@ -3,11 +3,15 @@ import './App.css';
 import Login from "./common/Login/Login";
 import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
 import AuthManager from "./common/data/AuthManager";
-import PageNotFound from "./common/components/Base/Errors/PageNotfound";
 import {createMuiTheme, MuiThemeProvider} from "material-ui";
 import CustomTheme, {THEME_CONST} from "./common/components/Theme/CustomTheme";
 
 class App extends Component {
+    componentDidMount() {
+        var loadingElement = document.getElementById('splash-screen');
+        loadingElement.parentNode.removeChild(loadingElement);
+    }
+
     render() {
         return (
             <BrowserRouter>
@@ -61,32 +65,11 @@ class Protected extends Component {
         if (this.user !== null) {
             if (!UserComponent) return null; // TODO: loading here
 
-            if (this.user.type === App.CONST.ADMIN_USER) {
-                return (
-                    <MuiThemeProvider theme={themes[this.state.themeIndex]}>
-                        <UserComponent setTheme={() => this.setTheme()}>
-                            <Switch>
-                                <Redirect exact from='/' to='/customers'/>
-                                <Route component={PageNotFound}/>
-                            </Switch>
-                        </UserComponent>
-                    </MuiThemeProvider>
-
-                );
-            } else { // Client User
-                return (
-                    <MuiThemeProvider theme={themes[this.state.themeIndex]}>
-                        <UserComponent setTheme={() => this.setTheme()}>
-                            <Switch>
-                                <Redirect exact from='/' to='/consumptions'/>
-                                <Route component={PageNotFound}/>
-                            </Switch>
-                        </UserComponent>
-                    </MuiThemeProvider>
-
-                );
-            }
-
+            return (
+                <MuiThemeProvider theme={themes[this.state.themeIndex]}>
+                    <UserComponent setTheme={() => this.setTheme()}/>
+                </MuiThemeProvider>
+            );
         }
         return <Redirect to="/login"/>;
     }
