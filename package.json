@@ -4,11 +4,11 @@
   "private": true,
   "homepage": "https://renuka-fernando.github.io/buildnppm",
   "dependencies": {
+    "@material-ui/icons": "^1.0.0-beta.42",
     "axios": "^0.18.0",
     "classnames": "^2.2.5",
     "fusioncharts": "^3.12.2",
     "material-ui": "^1.0.0-beta.40",
-    "material-ui-icons": "^1.0.0-beta.36",
     "prop-types": "^15.6.1",
     "qs": "^6.5.1",
     "react": "^16.3.0",

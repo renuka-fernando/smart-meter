@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
+import {withStyles} from 'material-ui/styles';
 import classNames from 'classnames';
 import Drawer from 'material-ui/Drawer';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
-import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
+import List, {ListItem, ListItemIcon, ListItemText} from 'material-ui/List';
 import Typography from 'material-ui/Typography';
 import Input from 'material-ui/Input';
 import Divider from 'material-ui/Divider';
@@ -13,10 +13,8 @@ import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
 import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 import ChevronRightIcon from 'material-ui-icons/ChevronRight';
-import { Link } from 'react-router-dom';
-import InboxIcon from 'material-ui-icons/Inbox';
-import Games from 'material-ui-icons/Games';
-import Card, { CardActions, CardContent } from 'material-ui/Card';
+import {Link} from 'react-router-dom';
+import Card, {CardActions, CardContent} from 'material-ui/Card';
 import Avatar from 'material-ui/Avatar';
 import LightbulbOutline from 'material-ui-icons/LightbulbOutline';
 import Person from 'material-ui-icons/Person';
@@ -25,6 +23,7 @@ import Button from 'material-ui/Button';
 import Popover from 'material-ui/Popover';
 
 import AuthManager from '../../data/AuthManager.js';
+import Logo from '../../images/logo.png';
 
 const drawerWidth = 240;
 const helpTips = [
@@ -151,11 +150,6 @@ const styles = theme => ({
     },
 });
 
-/**
- *
- * @class Layout
- * @extends {React.Component}
- */
 class Layout extends React.Component {
     state = {
         open: false,
@@ -165,11 +159,11 @@ class Layout extends React.Component {
     };
 
     handleDrawerOpen = () => {
-        this.setState({ open: true });
+        this.setState({open: true});
     };
 
     handleDrawerClose = () => {
-        this.setState({ open: false });
+        this.setState({open: false});
     };
 
     handleClickButton = (key) => {
@@ -185,16 +179,11 @@ class Layout extends React.Component {
     };
 
     handleRequestCloseUserMenu = () => {
-        this.setState({ openPopB: false });
+        this.setState({openPopB: false});
     };
 
-    /**
-     * @inheritDoc
-     * @returns {React.Component} Base Component
-     * @memberof Layout
-     */
     render() {
-        const { classes, theme } = this.props;
+        const {classes, theme} = this.props;
         const user = AuthManager.getUser();
 
         return (
@@ -208,7 +197,7 @@ class Layout extends React.Component {
                                 onClick={this.handleDrawerOpen}
                                 className={classNames(classes.menuButton, this.state.open && classes.hide)}
                             >
-                                <MenuIcon />
+                                <MenuIcon/>
                             </IconButton>
                             <Link to='/'>
                                 <Typography variant='title' noWrap className={classes.brand}>
@@ -217,7 +206,7 @@ class Layout extends React.Component {
                             </Link>
 
                             <Input
-                                placeholder='Search Apis'
+                                placeholder='Search Customers'
                                 className={classes.input}
                                 inputProps={{
                                     'aria-label': 'Description',
@@ -231,7 +220,7 @@ class Layout extends React.Component {
                                 }}
                                 onClick={() => this.handleClickButton('openPopA')}
                             >
-                                <InfoIcon />
+                                <InfoIcon/>
                             </Button>
                             <Popover
                                 open={this.state.openPopA}
@@ -251,9 +240,9 @@ class Layout extends React.Component {
                                         return (
                                             <ListItem button key={tip}>
                                                 <ListItemIcon>
-                                                    <InfoIcon />
+                                                    <InfoIcon/>
                                                 </ListItemIcon>
-                                                <ListItemText primary={tip} />
+                                                <ListItemText primary={tip}/>
                                             </ListItem>
                                         );
                                     })}
@@ -266,7 +255,7 @@ class Layout extends React.Component {
                                 aria-label='Change theme'
                                 onClick={() => this.props.setTheme()}
                             >
-                                <LightbulbOutline />
+                                <LightbulbOutline/>
                             </IconButton>
                             {/* Logout button */}
                             <Button
@@ -295,7 +284,7 @@ class Layout extends React.Component {
                                     <CardContent>
                                         <ListItem button className={classes.listItem}>
                                             <Avatar>
-                                                <Person />
+                                                <Person/>
                                             </Avatar>
                                             <ListItemText
                                                 secondary='Lorem ipsum dolor sit amet'
@@ -336,7 +325,7 @@ class Layout extends React.Component {
                                     <IconButton className={classes.menuButton} color='default' aria-label='Menu'>
                                         <img
                                             className={classes.siteLogo}
-                                            src='logo.png'
+                                            src={Logo}
                                             alt='sms-logo'
                                         />
                                     </IconButton>
@@ -345,28 +334,11 @@ class Layout extends React.Component {
                                     </Typography>
                                 </Link>
                                 <IconButton onClick={this.handleDrawerClose}>
-                                    {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                                    {theme.direction === 'rtl' ? <ChevronRightIcon/> : <ChevronLeftIcon/>}
                                 </IconButton>
                             </div>
-                            <Divider />
-                            <List component='nav'>
-                                <Link to='/'>
-                                    <ListItem button>
-                                        <ListItemIcon>
-                                            <InboxIcon />
-                                        </ListItemIcon>
-                                        <ListItemText primary='APIs' />
-                                    </ListItem>
-                                </Link>
-                                <Link to='/endpoints'>
-                                    <ListItem button>
-                                        <ListItemIcon>
-                                            <Games />
-                                        </ListItemIcon>
-                                        <ListItemText primary='Branches' />
-                                    </ListItem>
-                                </Link>
-                            </List>
+                            <Divider/>
+                            {this.props.navBar}
                         </div>
                     </Drawer>
                     <main className={classes.content}>{this.props.children}</main>
@@ -383,4 +355,4 @@ Layout.propTypes = {
     children: PropTypes.node.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(Layout);
+export default withStyles(styles, {withTheme: true})(Layout);
