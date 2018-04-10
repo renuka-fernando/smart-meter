@@ -5,6 +5,7 @@ import PageNotFound from "../../../common/components/Base/Errors/PageNotfound";
 import {List, ListItem, ListItemIcon, ListItemText} from "material-ui";
 import {Contacts, LocationCity} from "@material-ui/icons";
 import Customers from "../Customers/Customers";
+import Branches from "../Branches/Branches";
 
 export default class Home extends Component {
     constructor(props) {
@@ -38,6 +39,7 @@ export default class Home extends Component {
                 <Switch>
                     <Redirect exact from='/' to='/customers'/>
                     <Route path='/customers' component={Customers}/>
+                    <Route path='/branches' component={Branches}/>
                     <Route component={PageNotFound}/>
                 </Switch>
             </Base>);

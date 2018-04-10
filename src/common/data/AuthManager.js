@@ -7,7 +7,7 @@ class AuthManager {
     static getUser() {
         const userData = localStorage.getItem(`${User.CONST.LOCAL_STORAGE_USER}`);
         if (!userData) {
-            return {name: 'Renuka', type: 'admin'};
+            return {name: 'Renuka', type: 'client'};
         }
 
         return User.fromJson(JSON.parse(userData));
@@ -57,6 +57,10 @@ class AuthManager {
         const user = new User(data.authUser);
         user.scopes = data.scopes.split(' ');
         return user;
+    }
+
+    static hasScopes(resourcePath, resourceMethod) {
+
     }
 }
 
