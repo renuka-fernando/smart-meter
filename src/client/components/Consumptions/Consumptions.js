@@ -4,13 +4,39 @@ import {Grid} from "material-ui";
 import FusionCharts from 'fusioncharts';
 import Charts from 'fusioncharts/fusioncharts.charts';
 import ReactFC from 'react-fusioncharts';
+import ChartUtils from "../../../common/data/ChartUtils";
+
+import Axios from 'axios';
+import Utils from "../../../common/data/Utils";
 
 export default class Consumptions extends Component {
-    render() {
-        Charts(FusionCharts);
+    constructor(props) {
+        super(props);
+        this.state = {};
+
+        this.generateChartConfigs = this.generateChartConfigs.bind(this);
+    }
+
+    componentDidMount() {
+        Axios.get("http://renuka-inspiron-3543:8092/reads?accountIdList=100").then(readings => {
+            this.setState({
+                consumption: readings.data
+            });
+        }).catch(e => console.error("Error while reading meter-readings:\n" + e))
+    }
+
+    generateChartConfigs() {
+        const {consumption} = this.state;
+        let category, values;
+
+        category = consumption.map(reading => {
+            let date = new Date(reading.timestamp);
+            return Utils.getNearestQuarter(date.getHours(), date.getMinutes())
+        });
+        values = consumption.map(reading => reading.reading);
 
         const dataSource = {
-            chart: {
+            "chart": {
                 "caption": "Actual Revenues, Targeted Revenues & Profits",
                 "subcaption": "Last year",
                 "xaxisname": "Month",
@@ -20,177 +46,17 @@ export default class Consumptions extends Component {
             },
             "categories": [
                 {
-                    "category": [
-                        {
-                            "label": "Jan"
-                        },
-                        {
-                            "label": "Feb"
-                        },
-                        {
-                            "label": "Mar"
-                        },
-                        {
-                            "label": "Apr"
-                        },
-                        {
-                            "label": "May"
-                        },
-                        {
-                            "label": "Jun"
-                        },
-                        {
-                            "label": "Jul"
-                        },
-                        {
-                            "label": "Aug"
-                        },
-                        {
-                            "label": "Sep"
-                        },
-                        {
-                            "label": "Oct"
-                        },
-                        {
-                            "label": "Nov"
-                        },
-                        {
-                            "label": "Dec"
-                        }
-                    ]
+                    "category": ChartUtils.generateValues(category, "label")
                 }
             ],
             "dataset": [
                 {
                     "seriesname": "Actual Revenue",
-                    "data": [
-                        {
-                            "value": "16000"
-                        },
-                        {
-                            "value": "20000"
-                        },
-                        {
-                            "value": "18000"
-                        },
-                        {
-                            "value": "19000"
-                        },
-                        {
-                            "value": "15000"
-                        },
-                        {
-                            "value": "21000"
-                        },
-                        {
-                            "value": "16000"
-                        },
-                        {
-                            "value": "20000"
-                        },
-                        {
-                            "value": "17000"
-                        },
-                        {
-                            "value": "25000"
-                        },
-                        {
-                            "value": "19000"
-                        },
-                        {
-                            "value": "23000"
-                        }
-                    ]
-                },
-                {
-                    "seriesname": "Projected Revenue",
-                    "renderas": "line",
-                    "showvalues": "0",
-                    "data": [
-                        {
-                            "value": "15000"
-                        },
-                        {
-                            "value": "16000"
-                        },
-                        {
-                            "value": "17000"
-                        },
-                        {
-                            "value": "18000"
-                        },
-                        {
-                            "value": "19000"
-                        },
-                        {
-                            "value": "19000"
-                        },
-                        {
-                            "value": "19000"
-                        },
-                        {
-                            "value": "19000"
-                        },
-                        {
-                            "value": "20000"
-                        },
-                        {
-                            "value": "21000"
-                        },
-                        {
-                            "value": "22000"
-                        },
-                        {
-                            "value": "23000"
-                        }
-                    ]
-                },
-                {
-                    "seriesname": "Profit",
-                    "renderas": "area",
-                    "showvalues": "0",
-                    "data": [
-                        {
-                            "value": "4000"
-                        },
-                        {
-                            "value": "5000"
-                        },
-                        {
-                            "value": "3000"
-                        },
-                        {
-                            "value": "4000"
-                        },
-                        {
-                            "value": "1000"
-                        },
-                        {
-                            "value": "7000"
-                        },
-                        {
-                            "value": "1000"
-                        },
-                        {
-                            "value": "4000"
-                        },
-                        {
-                            "value": "1000"
-                        },
-                        {
-                            "value": "8000"
-                        },
-                        {
-                            "value": "2000"
-                        },
-                        {
-                            "value": "7000"
-                        }
-                    ]
+                    "data": ChartUtils.generateValues(values, "value")
                 }
             ]
         };
-        const chartConfigs = {
+        return {
             id: "multi_chart",
             type: "mscombi2d",
             width: "100%",
@@ -198,12 +64,21 @@ export default class Consumptions extends Component {
             dataFormat: "json",
             dataSource
         };
+    }
+
+
+    render() {
+        const {consumption} = this.state;
+        Charts(FusionCharts);
 
         return (
             <Grid container spacing={0}>
                 <Grid item xs={12}>Consumptions</Grid>
                 <Grid item xs={12}>
-                    <ReactFC {...chartConfigs} />
+                    {consumption ?
+                        <ReactFC {...this.generateChartConfigs()} /> :
+                        "Loading..."
+                    }
                 </Grid>
             </Grid>
         );
