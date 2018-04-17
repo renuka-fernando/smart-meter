@@ -1,5 +1,16 @@
 import React, {Component} from "react";
-import {Grid} from "material-ui";
+import {
+    ExpansionPanel,
+    ExpansionPanelDetails,
+    ExpansionPanelSummary,
+    Grid,
+    IconButton,
+    Paper,
+    Snackbar,
+    Typography
+} from "material-ui";
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import CloseIcon from 'material-ui-icons/Close';
 
 import FusionCharts from 'fusioncharts';
 import Charts from 'fusioncharts/fusioncharts.charts';
@@ -15,57 +26,72 @@ export default class Consumptions extends Component {
         this.state = {};
 
         this.generateChartConfigs = this.generateChartConfigs.bind(this);
+        this.handleMessageClose = this.handleMessageClose.bind(this);
     }
 
     componentDidMount() {
+        // TODO: temp url
         Axios.get("http://renuka-inspiron-3543:8092/reads?accountIdList=100").then(readings => {
             this.setState({
                 consumption: readings.data
             });
-        }).catch(e => console.error("Error while reading meter-readings:\n" + e))
+        }).catch(e => {
+            console.error("Error while reading meter-readings:\n" + e);
+            this.setState({connectionError: true, errorMessage: "Connection Error!"})
+        })
     }
 
     generateChartConfigs() {
-        const {consumption} = this.state;
-        let category, values;
+        let {consumption} = this.state;
+        // Filter consumptions: get only hourly reading
+        consumption = consumption.filter((reading, i) => {
+            let date = new Date(reading.timestamp);
+            return (i % 4 === 0);
+        });
 
-        category = consumption.map(reading => {
+        const category = consumption.map(reading => {
             let date = new Date(reading.timestamp);
             return Utils.getNearestQuarter(date.getHours(), date.getMinutes())
         });
-        values = consumption.map(reading => reading.reading);
+        let values = [];
+        consumption.map(reading => reading.reading).reduce((accumulator, value, i) => {
+            values[i - 1] = Utils.precisionRound(value - accumulator, 4);
+            return value;
+        });
 
         const dataSource = {
             "chart": {
-                "caption": "Actual Revenues, Targeted Revenues & Profits",
-                "subcaption": "Last year",
-                "xaxisname": "Month",
-                "yaxisname": "Amount (In USD)",
-                "numbersuffix": " LKR",
+                "caption": "Daily Consumption",
+                "subcaption": "Last Day",
+                "xaxisname": "Time",
+                "yaxisname": "Amount (In kW/h)",
                 "theme": "ocean"
             },
             "categories": [
                 {
-                    "category": ChartUtils.generateValues(category, "label")
+                    "category": ChartUtils.generateValuesFromArray(category, "label")
                 }
             ],
             "dataset": [
                 {
-                    "seriesname": "Actual Revenue",
-                    "data": ChartUtils.generateValues(values, "value")
+                    "seriesname": "Hourly Consumption",
+                    "data": ChartUtils.generateValuesFromArray(values, "value")
                 }
             ]
         };
         return {
             id: "multi_chart",
             type: "mscombi2d",
-            width: "100%",
+            width: "95%",
             height: 400,
             dataFormat: "json",
             dataSource
         };
     }
 
+    handleMessageClose() {
+        this.setState({connectionError: false});
+    }
 
     render() {
         const {consumption} = this.state;
@@ -73,12 +99,45 @@ export default class Consumptions extends Component {
 
         return (
             <Grid container spacing={0}>
-                <Grid item xs={12}>Consumptions</Grid>
                 <Grid item xs={12}>
-                    {consumption ?
-                        <ReactFC {...this.generateChartConfigs()} /> :
-                        "Loading..."
-                    }
+                    <ExpansionPanel defaultExpanded>
+                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
+                            <Typography variant="title" gutterBottom>Daily Consumptions</Typography>
+                        </ExpansionPanelSummary>
+                        <ExpansionPanelDetails>
+                            {!consumption ?
+                                <Typography variant="body2" gutterBottom>Loading...</Typography> :
+                                consumption.length === 0 ?
+                                    <Typography variant="body2" gutterBottom>No Consumption Data</Typography> :
+                                    <Paper elevation={4}>
+                                        <ReactFC {...this.generateChartConfigs()} />
+                                    </Paper>
+                            }
+                        </ExpansionPanelDetails>
+                    </ExpansionPanel>
+
+                    <Snackbar
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'left',
+                        }}
+                        open={this.state.connectionError}
+                        onClose={this.handleMessageClose}
+                        SnackbarContentProps={{
+                            'aria-describedby': 'message-id',
+                        }}
+                        message={<span id="message-id">{this.state.errorMessage}</span>}
+                        action={[
+                            <IconButton
+                                key="close"
+                                aria-label="Close"
+                                color="inherit"
+                                onClick={this.handleMessageClose}
+                            >
+                                <CloseIcon/>
+                            </IconButton>,
+                        ]}
+                    />
                 </Grid>
             </Grid>
         );

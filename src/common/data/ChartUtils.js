@@ -5,7 +5,7 @@ export default class ChartUtils {
      * @param label
      * @returns {Array}
      */
-    static generateValues(categoryValues, label) {
+    static generateValuesFromArray(categoryValues, label) {
         const category = [];
         categoryValues.map(value => {
             category.push({
