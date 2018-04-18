@@ -56,26 +56,22 @@ public class ReadingService {
         }
     }
 
-    public Iterable<AccountReadingListDTO<MonthlyReadingDTO>> getMonthlyReadings(List<Long> accountIdList, Long timestampFrom, Long timestampTo) {
-        Date from = (timestampFrom == null) ? getDefaultYearTimestampFrom() : new Date(timestampFrom);
-        Date to = (timestampTo == null) ? getDefaultTimestampTo() : new Date(timestampTo);
+    public Iterable<AccountReadingListDTO<MonthlyReadingDTO>> getMonthlyReadings(List<Long> accountIdList) throws SmartMeterException {
+        Date from = getDefaultYearTimestampFrom();
+        Date to = getDefaultTimestampTo();
         LinkedList<AccountReadingListDTO<MonthlyReadingDTO>> monthlyConsumption = new LinkedList<>();
 
-        accountIdList.forEach(accountId -> {
+        for (Long accountId : accountIdList) {
             AccountReadingListDTO<MonthlyReadingDTO> accountReadingListDTO = new AccountReadingListDTO<>();
             accountReadingListDTO.setAccountId(accountId);
 
             LinkedList<MonthlyReadingDTO> readingDTOS = new LinkedList<>();
-            readingRepository.findMonthlySummeryByAccount_id(accountId, from, to).forEach(monthRead -> {
-                try {
-                    readingDTOS.add(MonthlyReadingDTO.parse(monthRead));
-                } catch (SmartMeterException e) {
-                    e.printStackTrace();
-                }
-            });
+            for (Object[] monthRead : readingRepository.findMonthlySummeryByAccount_id(accountId, from, to)) {
+                readingDTOS.add(MonthlyReadingDTO.parse(monthRead));
+            }
             accountReadingListDTO.setReadings(readingDTOS);
             monthlyConsumption.add(accountReadingListDTO);
-        });
+        }
 
         return monthlyConsumption;
     }
@@ -88,7 +84,9 @@ public class ReadingService {
 
     private Date getDefaultYearTimestampFrom() {
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.YEAR, -1);
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        calendar.set(year - 1, month + 1, 1);
         return calendar.getTime();
     }
 

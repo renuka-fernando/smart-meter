@@ -22,7 +22,7 @@ public interface ReadingRepository extends CrudRepository<Reading, Long> {
 
 //    @Query(value = "select new org.renuka.sms.reading.dto.MonthlyReadingDTO(max(r.timestamp), avg(r.reading)) from Reading r" +
 //            " where r.timestamp >= :timestampFrom and r.timestamp <= :timestampTo and r.account_id = :id")
-    @Query(value = "select month(timestamp), avg(reading) from consumption where timestamp >= :timestampFrom and timestamp <= :timestampTo and account_id = :id group by month(timestamp)", nativeQuery = true)
+    @Query(value = "select month(timestamp), min(reading), max(reading) from consumption where timestamp >= :timestampFrom and timestamp <= :timestampTo and account_id = :id group by month(timestamp)", nativeQuery = true)
     Iterable<Object[]> findMonthlySummeryByAccount_id(@Param("id") Long id, @Param("timestampFrom") Date timestampFrom,
                                                                @Param("timestampTo") Date timestampTo);
 }
