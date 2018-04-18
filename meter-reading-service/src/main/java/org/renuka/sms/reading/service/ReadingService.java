@@ -1,9 +1,10 @@
 package org.renuka.sms.reading.service;
 
 import org.renuka.sms.common.exception.ExceptionCodes;
+import org.renuka.sms.common.exception.SmartMeterException;
 import org.renuka.sms.common.exception.SmsResourceNotFoundException;
-import org.renuka.sms.reading.constants.ReadingConstants;
-import org.renuka.sms.reading.dto.MonthlyReading;
+import org.renuka.sms.reading.dto.AccountReadingListDTO;
+import org.renuka.sms.reading.dto.MonthlyReadingDTO;
 import org.renuka.sms.reading.entity.Reading;
 import org.renuka.sms.reading.repository.ReadingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -44,17 +46,6 @@ public class ReadingService {
         return readingRepository.findByListOfAccounts(accountIdList, from, to);
     }
 
-    private Date getDefaultTimestampFrom() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE, -1);
-        return calendar.getTime();
-    }
-
-    private Date getDefaultTimestampTo() {
-        return new Date();
-    }
-
-
     public Reading getAccountReadingById(Long accountId, Long readId) throws SmsResourceNotFoundException {
         Optional<Reading> result = readingRepository.findById(readId);
         if (result.isPresent() && result.get().getAccount_id().equals(accountId)) {
@@ -65,7 +56,43 @@ public class ReadingService {
         }
     }
 
-    public Iterable<MonthlyReading> getMonthlyReadings(List<Long> accountIdList, Long timestampFrom, Long timestampTo) {
-        return null;
+    public Iterable<AccountReadingListDTO<MonthlyReadingDTO>> getMonthlyReadings(List<Long> accountIdList, Long timestampFrom, Long timestampTo) {
+        Date from = (timestampFrom == null) ? getDefaultYearTimestampFrom() : new Date(timestampFrom);
+        Date to = (timestampTo == null) ? getDefaultTimestampTo() : new Date(timestampTo);
+        LinkedList<AccountReadingListDTO<MonthlyReadingDTO>> monthlyConsumption = new LinkedList<>();
+
+        accountIdList.forEach(accountId -> {
+            AccountReadingListDTO<MonthlyReadingDTO> accountReadingListDTO = new AccountReadingListDTO<>();
+            accountReadingListDTO.setAccountId(accountId);
+
+            LinkedList<MonthlyReadingDTO> readingDTOS = new LinkedList<>();
+            readingRepository.findMonthlySummeryByAccount_id(accountId, from, to).forEach(monthRead -> {
+                try {
+                    readingDTOS.add(MonthlyReadingDTO.parse(monthRead));
+                } catch (SmartMeterException e) {
+                    e.printStackTrace();
+                }
+            });
+            accountReadingListDTO.setReadings(readingDTOS);
+            monthlyConsumption.add(accountReadingListDTO);
+        });
+
+        return monthlyConsumption;
+    }
+
+    private Date getDefaultTimestampFrom() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -1);
+        return calendar.getTime();
+    }
+
+    private Date getDefaultYearTimestampFrom() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.YEAR, -1);
+        return calendar.getTime();
+    }
+
+    private Date getDefaultTimestampTo() {
+        return new Date();
     }
 }
