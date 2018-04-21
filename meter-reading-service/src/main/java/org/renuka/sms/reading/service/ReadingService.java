@@ -1,8 +1,12 @@
 package org.renuka.sms.reading.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.renuka.sms.common.constants.CommonConstants;
 import org.renuka.sms.common.exception.ExceptionCodes;
+import org.renuka.sms.common.exception.ReadingValueDecryptionException;
 import org.renuka.sms.common.exception.SmartMeterException;
 import org.renuka.sms.common.exception.SmsResourceNotFoundException;
+import org.renuka.sms.common.util.SecurityUtils;
 import org.renuka.sms.reading.dto.AccountReadingListDTO;
 import org.renuka.sms.reading.dto.MonthlyReadingDTO;
 import org.renuka.sms.reading.entity.Reading;
@@ -10,11 +14,11 @@ import org.renuka.sms.reading.repository.ReadingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -26,12 +30,15 @@ public class ReadingService {
         this.readingRepository = readingRepository;
     }
 
-    public Reading addReading(Long accountId, Reading reading) {
-        if (Objects.equals(accountId, reading.getAccount_id())) { // TODO: validate encryption
-            reading.setTimestamp(new Date());
-            return readingRepository.save(reading);
-        } else
-            return null;
+    public Reading addReading(Long accountId, String reading) throws ReadingValueDecryptionException {
+        Reading decryptedReading = decryptReading(reading);
+
+        if (decryptedReading.getAccount_id().equals(accountId)) {
+            decryptedReading.setTimestamp(new Date());
+            return readingRepository.save(decryptedReading);
+        } else {
+            throw new ReadingValueDecryptionException("Invalid Account ID", ExceptionCodes.INVALID_ACCOUNT_ID);
+        }
     }
 
     public Iterable<Reading> getAccountReadings(Long accountId, Long timestampFrom, Long timestampTo) {
@@ -92,5 +99,17 @@ public class ReadingService {
 
     private Date getDefaultTimestampTo() {
         return new Date();
+    }
+
+    private Reading decryptReading(String reading) throws ReadingValueDecryptionException {
+        ObjectMapper mapper = new ObjectMapper();
+        String decryptedReading = SecurityUtils.decrypt(CommonConstants.ENCRYPTION_DECRYPTION_KEY,
+                CommonConstants.ENCRYPTION_DECRYPTION_IV, reading);
+        try {
+            return mapper.readValue(decryptedReading, Reading.class);
+        } catch (IOException e) {
+            throw new ReadingValueDecryptionException("Failed to parse Reading to JSON",
+                    ExceptionCodes.JSON_PRCESSING_ERROR);
+        }
     }
 }

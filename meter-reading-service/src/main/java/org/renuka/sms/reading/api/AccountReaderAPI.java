@@ -1,6 +1,7 @@
 package org.renuka.sms.reading.api;
 
 import org.renuka.sms.common.dto.ErrorDTO;
+import org.renuka.sms.common.exception.ReadingValueDecryptionException;
 import org.renuka.sms.common.exception.SmsResourceNotFoundException;
 import org.renuka.sms.common.util.RestApiUtil;
 import org.renuka.sms.reading.constants.ReadingConstants;
@@ -37,8 +38,19 @@ public class AccountReaderAPI {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity addReading(@PathVariable("accountId") Long accountId, @RequestBody Reading reading) {
-        Reading result = readingService.addReading(accountId, reading);
+    public ResponseEntity addReading(@PathVariable("accountId") Long accountId, @RequestBody String reading) {
+        Reading result = null;
+        try {
+            result = readingService.addReading(accountId, reading);
+        } catch (ReadingValueDecryptionException e) {
+            HashMap<String, String> params = new HashMap<>();
+            params.put(ReadingConstants.ExceptionsConstants.ENCRYPED_METER_REAING, reading);
+            ErrorDTO errorDTO = RestApiUtil.getErrorDTO(e.getErrorHandler(), params);
+            logger.error(e.getMessage(), e);
+
+            return new ResponseEntity<>(errorDTO, HttpStatus.FORBIDDEN);
+        }
+
         if (result != null) {
             URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                     .buildAndExpand(result.getId()).toUri();

@@ -59,4 +59,15 @@ public class Reading {
     public void setAccount_id(Long account_id) {
         this.account_id = account_id;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder value = new StringBuilder();
+        value.append("{'account_id': '")
+                .append(this.getAccount_id())
+                .append("', 'reading': '")
+                .append(this.getReading())
+                .append("'}");
+        return value.toString();
+    }
 }
