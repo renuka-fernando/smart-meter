@@ -2,22 +2,15 @@ package org.renuka.sms.common.util;
 
 import org.apache.commons.codec.binary.Base64;
 import org.renuka.sms.common.exception.ExceptionCodes;
-import org.renuka.sms.common.exception.ReadinValueEncryptionException;
+import org.renuka.sms.common.exception.ReadingValueEncryptionException;
 import org.renuka.sms.common.exception.ReadingValueDecryptionException;
 
-import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 
 public class SecurityUtils {
-    public static String encrypt(String key, String initVector, String value) throws ReadinValueEncryptionException {
+    public static String encrypt(String key, String initVector, String value) throws ReadingValueEncryptionException {
         byte[] encrypted;
 
         try {
@@ -28,7 +21,7 @@ public class SecurityUtils {
             cipher.init(Cipher.ENCRYPT_MODE, skeySpec, iv);
             encrypted = cipher.doFinal(value.getBytes());
         } catch (Exception e) {
-            throw new ReadinValueEncryptionException("Error while encrypting the meter reading value",
+            throw new ReadingValueEncryptionException("Error while encrypting the meter reading value",
                     ExceptionCodes.ENCRYPTION_ERROR);
         }
         return Base64.encodeBase64String(encrypted);

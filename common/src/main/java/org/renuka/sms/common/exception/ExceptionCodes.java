@@ -8,6 +8,7 @@ public enum ExceptionCodes implements ErrorHandler {
     DECRYPTION_ERROR(100002, "Error while Decrypting the Meter Reading Value", 500),
 
     METER_READING_NOT_FOUND(300000, "Meter Reading is not found", 404),
+    CUSTOMER_NOT_FOUND(300000, "Customer is not found", 404),
     INVALID_ACCOUNT_ID(300002, "Decrypted Account ID is not matched with the Account ID", 404);
 
 

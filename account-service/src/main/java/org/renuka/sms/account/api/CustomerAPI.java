@@ -54,7 +54,7 @@ public class CustomerAPI {
     }
 
     @GetMapping("/{customerId}")
-    public ResponseEntity getCustomerById(@PathVariable("customerId") Long customerId){
+    public ResponseEntity getCustomerById(@PathVariable("customerId") Long customerId) {
         try {
             return ResponseEntity.ok(customerService.getCustomerById(customerId));
         } catch (SmsResourceNotFoundException e) {
@@ -65,5 +65,36 @@ public class CustomerAPI {
 
             return new ResponseEntity<>(errorDTO, HttpStatus.NOT_FOUND);
         }
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, path = "/{customerId}")
+    public ResponseEntity updateCustomerById(@PathVariable("customerId") Long customerId,
+                                             @RequestBody Customer customer) {
+        try {
+            return ResponseEntity.ok(customerService.updateCustomerById(customerId, customer));
+        } catch (SmsResourceNotFoundException e) {
+            HashMap<String, String> params = new HashMap<>();
+            params.put(AccountConstants.ExceptionsConstants.CUSTOMER_ID, customerId.toString());
+            ErrorDTO errorDTO = RestApiUtil.getErrorDTO(e.getErrorHandler(), params);
+            logger.error(e.getMessage(), e);
+
+            return new ResponseEntity<>(errorDTO, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, path = "/{customerId}")
+    public ResponseEntity deleteCustomerById(@PathVariable("customerId") Long customerId) {
+        try {
+            customerService.deleteCustomerById(customerId);
+            return ResponseEntity.noContent().build();
+        } catch (SmsResourceNotFoundException e) {
+            HashMap<String, String> params = new HashMap<>();
+            params.put(AccountConstants.ExceptionsConstants.CUSTOMER_ID, customerId.toString());
+            ErrorDTO errorDTO = RestApiUtil.getErrorDTO(e.getErrorHandler(), params);
+            logger.error(e.getMessage(), e);
+
+            return new ResponseEntity<>(errorDTO, HttpStatus.NOT_FOUND);
+        }
+
     }
 }

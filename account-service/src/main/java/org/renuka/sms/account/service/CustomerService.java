@@ -35,7 +35,18 @@ public class CustomerService {
             return result.get();
         } else {
             throw new SmsResourceNotFoundException("Customer not found : " + customerId,
-                    ExceptionCodes.METER_READING_NOT_FOUND);
+                    ExceptionCodes.CUSTOMER_NOT_FOUND);
         }
+    }
+
+    public void deleteCustomerById(Long customerId) throws SmsResourceNotFoundException {
+        getCustomerById(customerId); // check for existent and throw exception
+        customerRepository.deleteById(customerId);
+    }
+
+    public Customer updateCustomerById(Long customerId, Customer customer) throws SmsResourceNotFoundException {
+        getCustomerById(customerId); // check for existent and throw exception
+        customer.setId(customerId);
+        return customerRepository.save(customer);
     }
 }
