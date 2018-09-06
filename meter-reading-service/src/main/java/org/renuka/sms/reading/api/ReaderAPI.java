@@ -32,6 +32,13 @@ public class ReaderAPI {
         this.readingService = readingService;
     }
 
+    /***
+     * Get Meter Readings of given accountId list with a specified time duration
+     * @param accountIdList List of account ids
+     * @param timestampFrom From timestamp in nano seconds
+     * @param timestampTo To timestamp in nano seconds
+     * @return List of readings
+     */
     @GetMapping
     public ResponseEntity<Iterable<Reading>> getReads(
             @RequestParam("accountIdList") List<Long> accountIdList,
