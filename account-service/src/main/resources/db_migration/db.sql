@@ -284,11 +284,41 @@ COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table `SMART_METER`.`customer`
+-- Data for table `SMART_METER`.`branch`
 -- -----------------------------------------------------
 START TRANSACTION;
 USE SMART_METER_ACCOUNT;
-INSERT INTO `customer` (`id`, `password`, `lname`, `fname`, `email`, `contact_no`, `address_line1`, `address_line2`, `city`) VALUES (1, '123', 'Fernando', 'Renuka', 'renuka@gmail.com', '076', '132', 'Ramukka', 'Banda');
+INSERT INTO `branch` (`id`, `code`, `name`, `city_id`) VALUES (1, '12560', 'A-4 Branch', 1);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `SMART_METER`.`account_type`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE SMART_METER_ACCOUNT;
+INSERT INTO `account_type` (`id`, `type`, `rate_type_id`) VALUES (1, 'Domestic', 1);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `SMART_METER`.`enterprise_user_type`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE SMART_METER_ACCOUNT;
+INSERT INTO `enterprise_user_type` (`id`, `type`) VALUES (1, 'Super');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `SMART_METER`.`enterprise_user`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE SMART_METER_ACCOUNT;
+INSERT INTO `enterprise_user` (`id`, `employeeNo`, `password`, `fname`, `lname`, `enterprise_user_type_id`, `branch_id`) VALUES (1, 'A01', 'pw', 'Menuka', 'Fernando', 1, 1);
 
 COMMIT;
 
