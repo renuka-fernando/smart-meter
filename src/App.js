@@ -5,10 +5,11 @@ import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
 import AuthManager from "./common/data/AuthManager";
 import {createMuiTheme, MuiThemeProvider} from "material-ui";
 import CustomTheme, {THEME_CONST} from "./common/components/Theme/CustomTheme";
+import Logout from "./common/Login/Logout";
 
 class App extends Component {
     componentDidMount() {
-        var loadingElement = document.getElementById('splash-screen');
+        let loadingElement = document.getElementById('splash-screen');
         loadingElement.parentNode.removeChild(loadingElement);
     }
 
@@ -17,6 +18,7 @@ class App extends Component {
             <BrowserRouter>
                 <Switch>
                     <Route path="/login" component={Login}/>
+                    <Route path="/logout" component={Logout}/>
                     <Route component={Protected}/>
                 </Switch>
             </BrowserRouter>

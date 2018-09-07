@@ -31,7 +31,7 @@ export default class Consumptions extends Component {
 
     componentDidMount() {
         // TODO: temp url
-        Axios.get("http://renuka-inspiron-3543:8092/reads?accountIdList=100").then(readings => {
+        Axios.get("http://localhost:8092/reads?accountIdList=1").then(readings => {
             this.setState({
                 consumption: readings.data
             });
