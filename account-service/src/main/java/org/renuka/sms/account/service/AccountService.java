@@ -4,8 +4,6 @@ import org.renuka.sms.account.entity.Account;
 import org.renuka.sms.account.repository.AccountRepository;
 import org.renuka.sms.common.exception.ExceptionCodes;
 import org.renuka.sms.common.exception.SmsResourceNotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -17,7 +15,6 @@ import java.util.Optional;
 @Service
 public class AccountService {
     private AccountRepository accountRepository;
-    private static final Logger logger = LoggerFactory.getLogger(AccountService.class);
 
     @Autowired
     public AccountService(AccountRepository accountRepository) {
