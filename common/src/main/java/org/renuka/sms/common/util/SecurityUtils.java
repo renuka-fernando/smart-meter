@@ -10,12 +10,15 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 public class SecurityUtils {
+
+    public static final String UTF_8 = "UTF-8";
+
     public static String encrypt(String key, String initVector, String value) throws ReadingValueEncryptionException {
         byte[] encrypted;
 
         try {
-            IvParameterSpec iv = new IvParameterSpec(initVector.getBytes("UTF-8"));
-            SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes("UTF-8"), "AES");
+            IvParameterSpec iv = new IvParameterSpec(initVector.getBytes(UTF_8));
+            SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes(UTF_8), "AES");
 
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
             cipher.init(Cipher.ENCRYPT_MODE, skeySpec, iv);
@@ -30,8 +33,8 @@ public class SecurityUtils {
     public static String decrypt(String key, String initVector, String encrypted) throws ReadingValueDecryptionException {
         byte[] decrypted;
         try {
-            IvParameterSpec iv = new IvParameterSpec(initVector.getBytes("UTF-8"));
-            SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes("UTF-8"), "AES");
+            IvParameterSpec iv = new IvParameterSpec(initVector.getBytes(UTF_8));
+            SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes(UTF_8), "AES");
 
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
             cipher.init(Cipher.DECRYPT_MODE, skeySpec, iv);

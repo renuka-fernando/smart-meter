@@ -1,6 +1,8 @@
 package org.renuka.sms.common.exception;
 
-public interface ErrorHandler {
+import java.io.Serializable;
+
+public interface ErrorHandler extends Serializable {
     long getErrorCode();
 
     String getErrorMessage();

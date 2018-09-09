@@ -48,7 +48,7 @@ public class ReaderAPI {
     }
 
     @GetMapping("/monthly")
-    public ResponseEntity<?> getMonthlyReadings(
+    public ResponseEntity getMonthlyReadings(
             @RequestParam("accountIdList") List<Long> accountIdList) {
         Iterable<AccountReadingListDTO<MonthlyReadingDTO>> monthlyReadings;
         try {

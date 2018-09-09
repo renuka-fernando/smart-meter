@@ -69,7 +69,7 @@ public class AccountReaderAPI {
     }
 
     @GetMapping("/{readId}")
-    public ResponseEntity<?> getAccountReadingById(@PathVariable("accountId") Long accountId,
+    public ResponseEntity getAccountReadingById(@PathVariable("accountId") Long accountId,
                                                    @PathVariable("readId") Long readId) {
         try {
             return ResponseEntity.ok(readingService.getAccountReadingById(accountId, readId));

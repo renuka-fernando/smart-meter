@@ -107,7 +107,7 @@ public class AccountServiceTest {
         account.setAccountTypeId(5L);
         account.setBalance(8875.45);
         account.setBranchId(865L);
-        account.setCreatedDate(new Date());
+        account.setCreatedDate(new Date(1536488028838L));
         account.setOwnerId(885L);
 
         return account;

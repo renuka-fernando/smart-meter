@@ -1,7 +1,7 @@
 package org.renuka.sms.common.exception;
 
 public class SmartMeterException extends Exception {
-    private ErrorHandler errorHandler;
+    private final ErrorHandler errorHandler;
 
     public SmartMeterException(String message) {
         super(message);
@@ -15,6 +15,7 @@ public class SmartMeterException extends Exception {
 
     public SmartMeterException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
+        this.errorHandler = ExceptionCodes.INTERNAL_ERROR;
     }
 
     public SmartMeterException(String message, ErrorHandler errorHandler) {
