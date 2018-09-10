@@ -20,7 +20,7 @@ import ChartUtils from "../../../common/data/ChartUtils";
 import Axios from 'axios';
 import Utils from "../../../common/data/Utils";
 
-export default class Consumptions extends Component {
+export default class DailyConsumption extends Component {
     constructor(props) {
         super(props);
         this.state = {};
