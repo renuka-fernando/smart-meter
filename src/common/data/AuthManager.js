@@ -52,7 +52,7 @@ class AuthManager {
      */
     static authenticateUserTemp(username, password) {
         let user = new User(username);
-        user.type = (username === "Renuka") ? User.CONST.CLIENT : User.CONST.ADMIN;
+        user.type = (username === "Menuka") ? User.CONST.ADMIN : User.CONST.CLIENT;
         AuthManager.setUser(user);
     }
 

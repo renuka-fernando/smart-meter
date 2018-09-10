@@ -20,7 +20,7 @@ import ChartUtils from "../../../common/data/ChartUtils";
 import Axios from 'axios';
 import Utils from "../../../common/data/Utils";
 
-export default class Consumptions extends Component {
+class MonthlyConsumption extends Component {
     constructor(props) {
         super(props);
         this.state = {};
@@ -31,7 +31,7 @@ export default class Consumptions extends Component {
 
     componentDidMount() {
         // TODO: temp url
-        Axios.get("http://localhost:8092/reads?accountIdList=1").then(readings => {
+        Axios.get("http://localhost:8092/reads/monthly?accountIdList=1").then(readings => {
             this.setState({
                 consumption: readings.data
             });
@@ -43,27 +43,15 @@ export default class Consumptions extends Component {
 
     generateChartConfigs() {
         let {consumption} = this.state;
-        // Filter consumptions: get only hourly reading
-        consumption = consumption.filter((reading, i) => {
-            let date = new Date(reading.timestamp);
-            return (i % 4 === 0);
-        });
 
-        const category = consumption.map(reading => {
-            let date = new Date(reading.timestamp);
-            return Utils.getNearestQuarter(date.getHours(), date.getMinutes())
-        });
-        let values = [];
-        consumption.map(reading => reading.reading).reduce((accumulator, value, i) => {
-            values[i - 1] = Utils.precisionRound(value - accumulator, 4);
-            return value;
-        });
+        const category = consumption[0].readings.map(reading => reading.month);
+        const values = consumption[0].readings.map(reading => reading.value);
 
         const dataSource = {
             "chart": {
-                "caption": "Daily Consumption",
-                "subcaption": "Last Day",
-                "xaxisname": "Time",
+                "caption": "Monthly Consumption",
+                "subcaption": "Last 12 Months",
+                "xaxisname": "Month",
                 "yaxisname": "Amount (In kW/h)",
                 "theme": "ocean"
             },
@@ -74,13 +62,13 @@ export default class Consumptions extends Component {
             ],
             "dataset": [
                 {
-                    "seriesname": "Hourly Consumption",
+                    "seriesname": "Monthly Consumption",
                     "data": ChartUtils.generateValuesFromArray(values, "value")
                 }
             ]
         };
         return {
-            id: "daily_consumption",
+            id: "monthly_consumptino",
             type: "mscombi2d",
             width: "95%",
             height: 400,
@@ -102,7 +90,7 @@ export default class Consumptions extends Component {
                 <Grid item xs={12}>
                     <ExpansionPanel defaultExpanded>
                         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
-                            <Typography variant="title" gutterBottom>Daily Consumptions</Typography>
+                            <Typography variant="title" gutterBottom>Monthly Consumptions</Typography>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails>
                             {!consumption ?
@@ -143,3 +131,5 @@ export default class Consumptions extends Component {
         );
     }
 }
+
+export default MonthlyConsumption;
