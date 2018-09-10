@@ -1,24 +1,9 @@
 import React, {Component} from "react";
-import {
-    ExpansionPanel,
-    ExpansionPanelDetails,
-    ExpansionPanelSummary,
-    Grid,
-    IconButton,
-    Paper,
-    Snackbar,
-    Typography
-} from "material-ui";
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import CloseIcon from 'material-ui-icons/Close';
-
-import FusionCharts from 'fusioncharts';
-import Charts from 'fusioncharts/fusioncharts.charts';
-import ReactFC from 'react-fusioncharts';
 import ChartUtils from "../../../common/data/ChartUtils";
 
 import Axios from 'axios';
 import Utils from "../../../common/data/Utils";
+import Consumptions from "./Consumptions";
 
 export default class DailyConsumption extends Component {
     constructor(props) {
@@ -43,6 +28,8 @@ export default class DailyConsumption extends Component {
 
     generateChartConfigs() {
         let {consumption} = this.state;
+        if (!consumption) return;
+
         // Filter consumptions: get only hourly reading
         consumption = consumption.filter((reading, i) => {
             let date = new Date(reading.timestamp);
@@ -94,52 +81,14 @@ export default class DailyConsumption extends Component {
     }
 
     render() {
-        const {consumption} = this.state;
-        Charts(FusionCharts);
-
         return (
-            <Grid container spacing={0}>
-                <Grid item xs={12}>
-                    <ExpansionPanel defaultExpanded>
-                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
-                            <Typography variant="title" gutterBottom>Daily Consumptions</Typography>
-                        </ExpansionPanelSummary>
-                        <ExpansionPanelDetails>
-                            {!consumption ?
-                                <Typography variant="body2" gutterBottom>Loading...</Typography> :
-                                consumption.length === 0 ?
-                                    <Typography variant="body2" gutterBottom>No Consumption Data</Typography> :
-                                    <Paper elevation={4}>
-                                        <ReactFC {...this.generateChartConfigs()} />
-                                    </Paper>
-                            }
-                        </ExpansionPanelDetails>
-                    </ExpansionPanel>
-
-                    <Snackbar
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'left',
-                        }}
-                        open={this.state.connectionError}
-                        onClose={this.handleMessageClose}
-                        SnackbarContentProps={{
-                            'aria-describedby': 'message-id',
-                        }}
-                        message={<span id="message-id">{this.state.errorMessage}</span>}
-                        action={[
-                            <IconButton
-                                key="close"
-                                aria-label="Close"
-                                color="inherit"
-                                onClick={this.handleMessageClose}
-                            >
-                                <CloseIcon/>
-                            </IconButton>,
-                        ]}
-                    />
-                </Grid>
-            </Grid>
+            <Consumptions
+                consumption={this.state.consumption}
+                chartConfigs={this.generateChartConfigs()}
+                connectionError={this.state.connectionError}
+                errorMessage={this.state.errorMessage}
+                title={"Daily Consumptions"}
+            />
         );
     }
 }
