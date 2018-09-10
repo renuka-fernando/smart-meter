@@ -19,10 +19,11 @@
 import Utils from './Utils';
 
 export default class User {
-    constructor(name, remember = false) {
+    constructor(name, type = User.CONST.CLIENT, remember = false) {
         this.name = name;
         this._scopes = [];
         this._remember = remember;
+        this._type = type;
     }
 
     get scopes() {
@@ -33,12 +34,21 @@ export default class User {
         Object.assign(this.scopes, newScopes);
     }
 
+    get type() {
+        return this._type;
+    }
+
+    set type(value) {
+        this._type = value;
+    }
+
     static fromJson(userJson) {
         if (!userJson.name) {
             throw new Error('Need to provide user `name` key in the JSON object, to create an user');
         }
 
         const _user = new User(userJson.name);
+        _user._type = userJson.type;
         _user.scopes = userJson.scopes;
         _user.rememberMe = userJson.remember;
         return _user;
@@ -47,6 +57,7 @@ export default class User {
     toJson() {
         return {
             name: this.name,
+            type: this._type,
             scopes: this._scopes,
             remember: this._remember,
         };
@@ -55,4 +66,6 @@ export default class User {
 
 User.CONST = {
     LOCAL_STORAGE_USER: 'sms_user',
+    CLIENT: 'client',
+    ADMIN: 'admin'
 };

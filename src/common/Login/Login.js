@@ -4,6 +4,7 @@ import CloseIcon from 'material-ui-icons/Close';
 import AuthManager from "../data/AuthManager";
 
 import './login.css';
+import {Redirect} from "react-router-dom";
 
 class Login extends Component {
     constructor(props) {
@@ -39,17 +40,25 @@ class Login extends Component {
             return;
         }
 
-        const loginPromise = AuthManager.authenticateUser(username, password);
+        // TODO: authentication
+        /*const loginPromise = AuthManager.authenticateUser(username, password);
         loginPromise.then((response) => {
             this.setState({isLogin: AuthManager.getUser()});
         }).catch((error) => {
             this.setState({message: error.message});
             this.setState({messageOpen: true});
             console.log(error);
-        });
+        })*/
+
+        // TODO: Temp solution remove this
+        AuthManager.authenticateUserTemp(username, password);
+        this.setState({isLogin: AuthManager.getUser()});
     };
 
     render() {
+        if (this.state.isLogin)
+            return <Redirect to={'/'}/>;
+
         return (
             <div className='login-flex-container'>
                 <Snackbar

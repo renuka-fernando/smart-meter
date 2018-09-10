@@ -45,6 +45,17 @@ class AuthManager {
         return promisedResponse;
     }
 
+    /**
+     * Temp Solution this should be removed
+     * @param username
+     * @param password
+     */
+    static authenticateUserTemp(username, password) {
+        let user = new User(username);
+        user.type = (username === "Renuka") ? User.CONST.CLIENT : User.CONST.ADMIN;
+        AuthManager.setUser(user);
+    }
+
     static setUser(user) {
         if (user) {
             localStorage.setItem(`${User.CONST.LOCAL_STORAGE_USER}`, JSON.stringify(user.toJson()));
