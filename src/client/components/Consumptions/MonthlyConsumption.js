@@ -1,20 +1,4 @@
 import React, {Component} from "react";
-import {
-    ExpansionPanel,
-    ExpansionPanelDetails,
-    ExpansionPanelSummary,
-    Grid,
-    IconButton,
-    Paper,
-    Snackbar,
-    Typography
-} from "material-ui";
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import CloseIcon from 'material-ui-icons/Close';
-
-import FusionCharts from 'fusioncharts';
-import Charts from 'fusioncharts/fusioncharts.charts';
-import ReactFC from 'react-fusioncharts';
 import ChartUtils from "../../../common/data/ChartUtils";
 
 import Axios from 'axios';
