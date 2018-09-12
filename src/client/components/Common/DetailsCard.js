@@ -33,6 +33,7 @@ class DetailsCard extends Component {
 }
 
 DetailsCard.propTypes = {
+    title: PropTypes.string,
     details: PropTypes.arrayOf(PropTypes.shape({
         label: PropTypes.string.isRequired,
         value: PropTypes.any.isRequired

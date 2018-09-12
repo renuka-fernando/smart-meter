@@ -1,8 +1,8 @@
 import React, {Component} from "react";
-import ChartUtils from "../../../common/data/ChartUtils";
+import ChartUtils from "../../../../common/data/ChartUtils";
 
 import Axios from 'axios';
-import Utils from "../../../common/data/Utils";
+import Utils from "../../../../common/data/Utils";
 import Consumptions from "./Consumptions";
 
 export default class DailyConsumption extends Component {

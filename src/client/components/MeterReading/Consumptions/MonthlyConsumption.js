@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import ChartUtils from "../../../common/data/ChartUtils";
+import ChartUtils from "../../../../common/data/ChartUtils";
 
 import Axios from 'axios';
 import Consumptions from "./Consumptions";
