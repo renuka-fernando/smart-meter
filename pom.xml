@@ -8,7 +8,7 @@
 
     <modules>
         <module>smart-meter-services</module>
-        <module>smart-meter-creating-readings</module>
+        <module>smart-meter-create-reading</module>
         <module>smart-meter-reading-encrypts</module>
     </modules>
 </project>
