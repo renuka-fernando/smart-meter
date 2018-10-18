@@ -13,12 +13,12 @@ The aim of the project is to make a green world, which is sustainable for many c
 ### 2.1 Components
 Find source code repositories of each component from the link.
 
-1. [Smart Meter Services](smart-meter-services/) - Micro Services of Smart-Meter
+1. [Smart Meter Services](smart-meter-services/README.md) - Micro Services of Smart-Meter
     - Account Service
     - Meter Reading Service
     - Payement Service
     - Gateway Service (Netflix Zuul Proxy)
     - Service Registry Service (Netflix Eureka Server)
-1. [Smart Meter Web](smart-meter-web/) - Web UI of Smart-Meter
-1. [Smart Meter Readings Encrypts](smart-meter-reading-encrypts/) - A programme to encrypt meter readings to manually call ***Meter Reading Service*** and add meter readings.
-1. [Smart Meter Create Meter Readings](smart-meter-create-readings/) - Generate meter readings manually through its APIs and directly inserting to Data Base. This API can be used for demo purposes of the ***Smart Meter Services.***
+1. [Smart Meter Web](smart-meter-web/README.md) - Web UI of Smart-Meter
+1. [Smart Meter Readings Encrypts](smart-meter-reading-encrypts/README.md) - A programme to encrypt meter readings to manually call ***Meter Reading Service*** and add meter readings.
+1. [Smart Meter Create Meter Readings](smart-meter-create-reading/README.md) - Generate meter readings manually through its APIs and directly inserting to Data Base. This API can be used for demo purposes of the ***Smart Meter Services.***
