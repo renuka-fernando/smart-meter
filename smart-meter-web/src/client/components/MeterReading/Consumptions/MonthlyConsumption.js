@@ -29,7 +29,7 @@ class MonthlyConsumption extends Component {
         let {consumption} = this.state;
         if (!consumption) return;
 
-        const category = consumption[0].readings.map(reading => reading.month);
+        const category = consumption[0].readings.map(reading => `${reading.month}`);
         const values = consumption[0].readings.map(reading => reading.value);
 
         const dataSource = {
