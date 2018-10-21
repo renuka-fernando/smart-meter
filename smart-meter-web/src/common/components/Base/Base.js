@@ -27,14 +27,9 @@ import Logo from '../../images/logo.png';
 
 const drawerWidth = 240;
 const helpTips = [
-    'By API Name [Default]',
-    'By API Provider [ Syntax - provider:xxxx ] or',
-    'By API Version [ Syntax - version:xxxx ] or',
-    'By Context [ Syntax - context:xxxx ] or',
-    'By Description [ Syntax - description:xxxx ] or',
-    'By Tags [ Syntax - tags:xxxx ] or',
-    'By Sub-Context [ Syntax - subcontext:xxxx ] or',
-    'By Documentation Content [ Syntax - doc:xxxx ]',
+    'By Customer Name [Default]',
+    'By Customer ID [ Syntax - id:xxxx ] or',
+    'By Customer Branch [ Syntax - branch:xxxx ] or',
 ];
 const styles = theme => ({
     root: {
