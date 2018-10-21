@@ -28,7 +28,7 @@ export default class DailyConsumption extends Component {
 
     generateChartConfigs() {
         let {consumption} = this.state;
-        if (!consumption) return;
+        if (!consumption || !consumption.length) return;
 
         // Filter consumptions: get only hourly reading
         consumption = consumption.filter((reading, i) => {
