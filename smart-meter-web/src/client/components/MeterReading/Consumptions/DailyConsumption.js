@@ -48,8 +48,8 @@ export default class DailyConsumption extends Component {
 
         const dataSource = {
             "chart": {
-                "caption": "Daily Consumption",
-                "subcaption": "Last Day",
+                "caption": "Today Consumption",
+                "subcaption": "Last 24 hours",
                 "xaxisname": "Time",
                 "yaxisname": "Amount (In kW/h)",
                 "theme": "ocean"
@@ -87,7 +87,7 @@ export default class DailyConsumption extends Component {
                 chartConfigs={this.generateChartConfigs()}
                 connectionError={this.state.connectionError}
                 errorMessage={this.state.errorMessage}
-                title={"Daily Consumptions"}
+                title={"Today Consumptions"}
             />
         );
     }

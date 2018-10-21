@@ -63,8 +63,9 @@ class Protected extends Component {
 
     render() {
         const {UserComponent} = this.state;
+        const user = AuthManager.getUser();
 
-        if (this.user !== null) {
+        if (user) {
             if (!UserComponent) return null; // TODO: loading here
 
             return (

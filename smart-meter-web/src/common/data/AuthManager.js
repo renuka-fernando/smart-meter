@@ -7,7 +7,7 @@ class AuthManager {
     static getUser() {
         const userData = localStorage.getItem(`${User.CONST.LOCAL_STORAGE_USER}`);
         if (!userData) {
-            return {name: 'Renuka', type: 'client'};
+            return false;
         }
 
         return User.fromJson(JSON.parse(userData));
@@ -51,9 +51,25 @@ class AuthManager {
      * @param password
      */
     static authenticateUserTemp(username, password) {
-        let user = new User(username);
-        user.type = (username === "Menuka") ? User.CONST.ADMIN : User.CONST.CLIENT;
-        AuthManager.setUser(user);
+        if ((username === "Menuka" || username === "Renuka") && password === "admin") {
+            let user = new User(username);
+            user.type = (username === "Menuka") ? User.CONST.ADMIN : User.CONST.CLIENT;
+            AuthManager.setUser(user);
+
+            console.log(`Authentication Success: User - ${user.name}`);
+        }
+        console.error('Authentication Error:');
+    }
+
+    /**
+     * Logout the user from session
+     * @returns {boolean} successfully logout or not
+     */
+    static logout() {
+        // TODO: logout form backend with calling rest APIs
+        localStorage.removeItem(`${User.CONST.LOCAL_STORAGE_USER}`);
+        console.log('Successfully logout');
+        return true;
     }
 
     static setUser(user) {
@@ -63,8 +79,8 @@ class AuthManager {
     }
 
     static getUserFromResponse(response) {
-        const { data } = response;
-        const { validityPeriod } = data; // In seconds
+        const {data} = response;
+        const {validityPeriod} = data; // In seconds
         const user = new User(data.authUser);
         user.scopes = data.scopes.split(' ');
         return user;
@@ -77,8 +93,8 @@ class AuthManager {
 
 AuthManager.CONST = {
     USER_SCOPES:
-    'sms:api_view sms:api_create sms:api_publish sms:tier_view sms:tier_manage ' +
-    'sms:subscription_view sms:subscription_block sms:subscribe sms:external_services_discover',
+        'sms:api_view sms:api_create sms:api_publish sms:tier_view sms:tier_manage ' +
+        'sms:subscription_view sms:subscription_block sms:subscribe sms:external_services_discover',
 };
 
 export default AuthManager;
