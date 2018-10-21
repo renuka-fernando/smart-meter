@@ -22,6 +22,8 @@ import InfoIcon from 'material-ui-icons/Info';
 import Button from 'material-ui/Button';
 import Popover from 'material-ui/Popover';
 
+import MoneySharpIcon from '@material-ui/icons/MoneySharp'
+
 import AuthManager from '../../data/AuthManager.js';
 import Logo from '../../images/logo.png';
 
@@ -178,7 +180,7 @@ class Layout extends React.Component {
     };
 
     render() {
-        const {classes, theme} = this.props;
+        const {classes, theme, navigationBar} = this.props;
         const user = AuthManager.getUser();
 
         return (
@@ -315,6 +317,7 @@ class Layout extends React.Component {
                         open={this.state.open}
                     >
                         <div className={classes.drawerInner}>
+                            {/*main logo*/}
                             <div className={classes.drawerHeader}>
                                 <Link to='/' className={classes.brandNameWrapper}>
                                     <IconButton className={classes.menuButton} color='default' aria-label='Menu'>
@@ -333,7 +336,7 @@ class Layout extends React.Component {
                                 </IconButton>
                             </div>
                             <Divider/>
-                            {this.props.navBar}
+                            {navigationBar}
                         </div>
                     </Drawer>
                     <main className={classes.content}>{this.props.children}</main>
@@ -347,6 +350,7 @@ Layout.propTypes = {
     classes: PropTypes.shape({}).isRequired,
     theme: PropTypes.shape({}).isRequired,
     setTheme: PropTypes.func.isRequired,
+    navigationBar: PropTypes.node.isRequired,
     children: PropTypes.node.isRequired,
 };
 
