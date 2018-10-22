@@ -30,6 +30,9 @@ export default {
             active: 'rgba(67, 160, 71, 1)',
         },
     },
+    shape: {
+        borderRadius: 4
+    },
 };
 
 export const THEME_CONST = {

@@ -91,10 +91,12 @@ const lightTheme = createMuiTheme({
 });
 darkTheme.palette.background.active = '#1B5E20';
 darkTheme.palette.background.appBar = '#3F51B5';
+darkTheme.shape = {borderRadius: 4};
 lightTheme.palette.background.active = '#A5D6A9';
 lightTheme.palette.background.appBar = '#A3C1FF';
 lightTheme.palette.background.contentFrame = '#E3F2FD';
 lightTheme.palette.text.brand = '#FFFFFF';
+lightTheme.shape = {borderRadius: 4};
 themes.push(darkTheme);
 themes.push(lightTheme);
 themes.push(createMuiTheme(CustomTheme));

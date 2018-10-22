@@ -13,7 +13,7 @@ export default class Home extends Component {
     }
 
     render() {
-        const navBar = (
+        const navigationBar = (
             <List component='nav'>
                 <Link to='/customers'>
                     <ListItem button>
@@ -35,7 +35,7 @@ export default class Home extends Component {
         );
 
         return (
-            <Base setTheme={this.props.setTheme} navBar={navBar}>
+            <Base setTheme={this.props.setTheme} navigationBar={navigationBar}>
                 <Switch>
                     <Redirect exact from='/' to='/customers'/>
                     <Route path='/customers' component={Customers}/>
