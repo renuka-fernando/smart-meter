@@ -9,7 +9,7 @@ class Listing extends Component {
         return (
             <Fragment>
                 <IconButton aria-label="Add" color={'Primary'}>
-                    <PersonAdd />
+                    <PersonAdd/>
                 </IconButton>
                 <CustomerTable/>
             </Fragment>

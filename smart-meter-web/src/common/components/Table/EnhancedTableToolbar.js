@@ -36,7 +36,7 @@ const toolbarStyles = theme => ({
 });
 
 const EnhancedTableToolbar = props => {
-    const { numSelected, classes, title } = props;
+    const {numSelected, classes, title} = props;
 
     return (
         <Toolbar
@@ -55,18 +55,18 @@ const EnhancedTableToolbar = props => {
                     </Typography>
                 )}
             </div>
-            <div className={classes.spacer} />
+            <div className={classes.spacer}/>
             <div className={classes.actions}>
                 {numSelected > 0 ? (
                     <Tooltip title="Delete">
                         <IconButton aria-label="Delete">
-                            <DeleteIcon />
+                            <DeleteIcon/>
                         </IconButton>
                     </Tooltip>
                 ) : (
                     <Tooltip title="Filter list">
                         <IconButton aria-label="Filter list">
-                            <FilterListIcon />
+                            <FilterListIcon/>
                         </IconButton>
                     </Tooltip>
                 )}
