@@ -13,11 +13,12 @@ class EnhancedTableHead extends React.Component {
     };
 
     render() {
-        const { onSelectAllClick, order, orderBy, numSelected, rowCount, headers } = this.props;
+        const {selectable, onSelectAllClick, order, orderBy, numSelected, rowCount, headers} = this.props;
 
         return (
             <TableHead>
                 <TableRow>
+                    {selectable &&
                     <TableCell padding="checkbox">
                         <Checkbox
                             indeterminate={numSelected > 0 && numSelected < rowCount}
@@ -25,6 +26,7 @@ class EnhancedTableHead extends React.Component {
                             onChange={onSelectAllClick}
                         />
                     </TableCell>
+                    }
                     {headers.map(row => {
                         return (
                             <TableCell

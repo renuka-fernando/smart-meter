@@ -6,11 +6,11 @@ import PageNotFound from "../../../common/components/Base/Errors/PageNotfound";
 
 export default class Customer extends Component {
     render() {
-        return(
+        return (
             <Switch>
-                <Route exact path='/customers' component={Listing} />
-                <Route path='/customers/:id/' render={props => <Details {...props} />} />
-                <Route component={PageNotFound} />
+                <Route exact path='/customers' component={Listing}/>
+                <Route path='/customers/:id/' render={props => <Details {...props} />}/>
+                <Route component={PageNotFound}/>
             </Switch>
         );
     }
