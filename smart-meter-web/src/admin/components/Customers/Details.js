@@ -3,7 +3,7 @@ import React, {Component} from "react";
 export default class Details extends Component {
     render() {
         return (
-            null
+            <div>Client Details</div>
         );
     }
 }

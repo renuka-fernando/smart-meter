@@ -11,6 +11,7 @@ import EnhancedTableToolbar from "../../../common/components/Table/EnhancedTable
 import EnhancedTableHead from "../../../common/components/Table/EnhancedTableHead";
 import TableUtils, {CONST} from "../../../common/data/TableUtils";
 import Axios from 'axios';
+import {Redirect} from "react-router-dom";
 
 let counter = 0;
 
@@ -50,6 +51,7 @@ class CustomerTable extends React.Component {
             data: [],
             page: 0,
             rowsPerPage: 5,
+            detailsPage: '',
         }
     }
 
@@ -77,7 +79,7 @@ class CustomerTable extends React.Component {
     };
 
     handleClick = (event, id) => {
-
+        this.setState({detailsPage: `/customers/${id}`})
     };
 
     handleChangePage = (event, page) => {
@@ -90,8 +92,10 @@ class CustomerTable extends React.Component {
 
     render() {
         const {classes} = this.props;
-        const {data, order, orderBy, rowsPerPage, page} = this.state;
+        const {detailsPage, data, order, orderBy, rowsPerPage, page} = this.state;
         const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
+
+        if (detailsPage) return <Redirect to={detailsPage}/>;
 
         return (
             <Paper className={classes.root}>
