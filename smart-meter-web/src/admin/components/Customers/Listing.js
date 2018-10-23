@@ -8,7 +8,7 @@ class Listing extends Component {
     render() {
         return (
             <Fragment>
-                <IconButton aria-label="Add" color={'Primary'}>
+                <IconButton aria-label="Add" color={'primary'}>
                     <PersonAdd/>
                 </IconButton>
                 <CustomerTable/>
