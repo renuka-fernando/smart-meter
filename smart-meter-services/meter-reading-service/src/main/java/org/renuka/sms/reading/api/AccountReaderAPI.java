@@ -19,7 +19,6 @@ import java.net.URI;
 import java.util.Date;
 import java.util.HashMap;
 
-@CrossOrigin(origins = {"http://localhost:3000"})
 @RestController
 @RequestMapping("/accounts/{accountId}/reads")
 public class AccountReaderAPI {

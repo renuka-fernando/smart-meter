@@ -18,7 +18,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.HashMap;
 
-@CrossOrigin(origins = {"http://localhost:3000"})
 @RestController
 @RequestMapping("/customers")
 public class CustomerAPI {
