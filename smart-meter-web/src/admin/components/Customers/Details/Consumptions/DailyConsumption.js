@@ -8,28 +8,42 @@ import Consumptions from "./Consumptions";
 export default class DailyConsumption extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            consumptions: [],
+            accounts: [],
+        };
 
-        this.generateChartConfigs = this.generateChartConfigs.bind(this);
         this.handleMessageClose = this.handleMessageClose.bind(this);
     }
 
     componentDidMount() {
         const {customerUUID} = this.props;
 
-        // TODO: temp url
-        Axios.get(`http://localhost:8092/reads?accountIdList=${customerUUID}`).then(readings => {
-            this.setState({
-                consumption: readings.data
+        // TODO: temp url and temp micro-service all replace with inter service communication
+        Axios.get(`http://localhost:8090/customers/${customerUUID}`).then(customer => {
+            let consumptions = [];
+            customer.data.accounts.forEach(account => {
+                Axios.get(`http://localhost:8092/reads?accountIdList=${account.id}`).then(readings => {
+                    consumptions.push(readings.data);
+                    this.setState({consumptions});
+                }).catch(e => {
+                    console.error("Error while reading meter-readings:\n" + e);
+                    this.setState({connectionError: true, errorMessage: "Connection Error!"})
+                })
             });
+
+            this.setState({accounts: customer.data.accounts});
         }).catch(e => {
-            console.error("Error while reading meter-readings:\n" + e);
+            console.error("Error while reading customer list:\n" + e);
             this.setState({connectionError: true, errorMessage: "Connection Error!"})
         })
     }
 
-    generateChartConfigs() {
-        let {consumption} = this.state;
+    handleMessageClose() {
+        this.setState({connectionError: false});
+    }
+
+    static generateChartConfigs(consumption, chart_id) {
         if (!consumption || !consumption.length) return;
 
         // Filter consumptions: get only hourly reading
@@ -69,7 +83,7 @@ export default class DailyConsumption extends Component {
             ]
         };
         return {
-            id: "daily_consumption",
+            id: chart_id,
             type: "mscombi2d",
             width: "95%",
             height: 400,
@@ -78,19 +92,20 @@ export default class DailyConsumption extends Component {
         };
     }
 
-    handleMessageClose() {
-        this.setState({connectionError: false});
-    }
-
     render() {
+        const {consumptions, accounts, connectionError, errorMessage} = this.state;
+
         return (
-            <Consumptions
-                consumption={this.state.consumption}
-                chartConfigs={this.generateChartConfigs()}
-                connectionError={this.state.connectionError}
-                errorMessage={this.state.errorMessage}
-                title={"Today Consumptions"}
-            />
+            consumptions.map((consumption, index) =>
+                <Consumptions
+                    consumption={consumption}
+                    chartConfigs={DailyConsumption.generateChartConfigs(consumption, `daily_consumption_${index}`)}
+                    connectionError={connectionError}
+                    errorMessage={errorMessage}
+                    title={`Account No: ${accounts[index].accountNo}`}
+                    key={index}
+                />
+            )
         );
     }
 }

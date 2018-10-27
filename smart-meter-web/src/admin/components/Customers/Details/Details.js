@@ -38,9 +38,6 @@ class Details extends Component {
                         {`${customer.fname} ${customer.lname}`}
                     </Typography>
                     <Typography variant="subheading" gutterBottom>
-                        {`ID: ${customer.id}`}
-                    </Typography>
-                    <Typography variant="subheading" gutterBottom>
                         {`Email: ${customer.email}`}
                     </Typography>
                     <Typography variant="subheading" gutterBottom>
@@ -49,6 +46,9 @@ class Details extends Component {
                     <Typography variant="subheading" gutterBottom>
                         {`Address: ${customer.address_line1}, ${customer.address_line2}, ${customer.city}`}
                     </Typography>
+                </Grid>
+                <Grid item xs={12}>
+
                 </Grid>
                 <Snackbar
                     anchorOrigin={{
