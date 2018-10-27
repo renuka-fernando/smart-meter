@@ -6,13 +6,14 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import PersonPinIcon from '@material-ui/icons/PersonPin';
 import TrendingUp from '@material-ui/icons/TrendingUp';
-import ShoppingBasket from '@material-ui/icons/ShoppingBasket';
+import BarChart from '@material-ui/icons/BarChart';
 import Typography from '@material-ui/core/Typography';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 import IconButton from "@material-ui/core/IconButton/IconButton";
 import {Redirect} from "react-router-dom";
 import Details from "./Details";
 import DailyConsumption from "./Consumptions/DailyConsumption";
+import MonthlyConsumption from "./Consumptions/MonthlyConsumption";
 
 function TabContainer(props) {
     return (
@@ -77,12 +78,14 @@ class DetailsTab extends React.Component {
                         >
                             <Tab label="Client Details" icon={<PersonPinIcon/>}/>
                             <Tab label="Hourly Consumption" icon={<TrendingUp/>}/>
-                            <Tab label="Item Five" icon={<ShoppingBasket/>}/>
+                            <Tab label="Monthly Consumption" icon={<BarChart/>}/>
                         </Tabs>
                     </AppBar>
                     {tabValue === 0 && <TabContainer> <Details customerUUID={this.customerUUID}/> </TabContainer>}
-                    {tabValue === 1 && <TabContainer> <DailyConsumption customerUUID={this.customerUUID}/> </TabContainer>}
-                    {tabValue === 2 && <TabContainer>Item Three</TabContainer>}
+                    {tabValue === 1 &&
+                    <TabContainer> <DailyConsumption customerUUID={this.customerUUID}/> </TabContainer>}
+                    {tabValue === 2 &&
+                    <TabContainer> <MonthlyConsumption customerUUID={this.customerUUID}/> </TabContainer>}
                 </div>
             </Fragment>
         );
