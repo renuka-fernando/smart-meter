@@ -22,21 +22,21 @@ export default class DailyConsumption extends Component {
         // TODO: temp url and temp micro-service all replace with inter service communication
         Axios.get(`http://localhost:8090/customers/${customerUUID}`).then(customer => {
             let consumptions = [];
+            let accounts = [];
             customer.data.accounts.forEach(account => {
                 Axios.get(`http://localhost:8092/reads?accountIdList=${account.id}`).then(readings => {
                     consumptions.push(readings.data);
-                    this.setState({consumptions});
+                    accounts.push(account);
+                    this.setState({consumptions, accounts});
                 }).catch(e => {
                     console.error("Error while reading meter-readings:\n" + e);
                     this.setState({connectionError: true, errorMessage: "Connection Error!"})
                 })
             });
-
-            this.setState({accounts: customer.data.accounts});
         }).catch(e => {
             console.error("Error while reading customer list:\n" + e);
             this.setState({connectionError: true, errorMessage: "Connection Error!"})
-        })
+        });
     }
 
     handleMessageClose() {
