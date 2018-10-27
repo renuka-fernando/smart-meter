@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 import IconButton from "@material-ui/core/IconButton/IconButton";
 import {Redirect} from "react-router-dom";
+import Details from "./Details";
 
 function TabContainer(props) {
     return (
@@ -32,11 +33,15 @@ const styles = theme => ({
     },
 });
 
-class Details extends React.Component {
-    state = {
-        tabValue: 0,
-        mainPage: '',
-    };
+class DetailsTab extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            tabValue: 0,
+            mainPage: '',
+        };
+        this.customerUUID = props.match.params.customerUUID;
+    }
 
     handleChange = (event, tabValue) => {
         this.setState({tabValue});
@@ -74,7 +79,7 @@ class Details extends React.Component {
                             <Tab label="Item Five" icon={<ShoppingBasket/>}/>
                         </Tabs>
                     </AppBar>
-                    {tabValue === 0 && <TabContainer>Item One</TabContainer>}
+                    {tabValue === 0 && <TabContainer> <Details customerUUID={this.customerUUID}/> </TabContainer>}
                     {tabValue === 1 && <TabContainer>Item Two</TabContainer>}
                     {tabValue === 2 && <TabContainer>Item Three</TabContainer>}
                 </div>
@@ -83,8 +88,8 @@ class Details extends React.Component {
     }
 }
 
-Details.propTypes = {
+DetailsTab.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Details);
+export default withStyles(styles)(DetailsTab);
