@@ -12,6 +12,7 @@ import ArrowBack from '@material-ui/icons/ArrowBack';
 import IconButton from "@material-ui/core/IconButton/IconButton";
 import {Redirect} from "react-router-dom";
 import Details from "./Details";
+import DailyConsumption from "./Consumptions/DailyConsumption";
 
 function TabContainer(props) {
     return (
@@ -75,12 +76,12 @@ class DetailsTab extends React.Component {
                             textColor="primary"
                         >
                             <Tab label="Client Details" icon={<PersonPinIcon/>}/>
-                            <Tab label="Consumption" icon={<TrendingUp/>}/>
+                            <Tab label="Hourly Consumption" icon={<TrendingUp/>}/>
                             <Tab label="Item Five" icon={<ShoppingBasket/>}/>
                         </Tabs>
                     </AppBar>
                     {tabValue === 0 && <TabContainer> <Details customerUUID={this.customerUUID}/> </TabContainer>}
-                    {tabValue === 1 && <TabContainer>Item Two</TabContainer>}
+                    {tabValue === 1 && <TabContainer> <DailyConsumption customerUUID={this.customerUUID}/> </TabContainer>}
                     {tabValue === 2 && <TabContainer>Item Three</TabContainer>}
                 </div>
             </Fragment>
