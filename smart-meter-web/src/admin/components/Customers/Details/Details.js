@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import Grid from "material-ui/Grid/Grid";
 import Typography from "material-ui/Typography/Typography";
 import Axios from "axios";
+import {IconButton, Snackbar} from "material-ui";
+import CloseIcon from "material-ui/SvgIcon/SvgIcon";
 
 class Details extends Component {
     constructor(props) {
@@ -27,6 +29,7 @@ class Details extends Component {
 
     render() {
         const {customer} = this.state;
+        const {connectionError, errorMessage} = this.props;
 
         return (
             <Grid container spacing={24}>
@@ -47,6 +50,28 @@ class Details extends Component {
                         {`Address: ${customer.address_line1}, ${customer.address_line2}, ${customer.city}`}
                     </Typography>
                 </Grid>
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                    open={connectionError}
+                    onClose={this.handleMessageClose}
+                    SnackbarContentProps={{
+                        'aria-describedby': 'message-id',
+                    }}
+                    message={<span id="message-id">{errorMessage}</span>}
+                    action={[
+                        <IconButton
+                            key="close"
+                            aria-label="Close"
+                            color="inherit"
+                            onClick={this.handleMessageClose}
+                        >
+                            <CloseIcon/>
+                        </IconButton>,
+                    ]}
+                />
             </Grid>
         );
     }
