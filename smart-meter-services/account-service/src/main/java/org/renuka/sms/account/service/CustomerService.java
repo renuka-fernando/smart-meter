@@ -1,5 +1,6 @@
 package org.renuka.sms.account.service;
 
+import org.renuka.sms.account.dto.CustomerDTO;
 import org.renuka.sms.account.entity.Customer;
 import org.renuka.sms.account.repository.CustomerRepository;
 import org.renuka.sms.common.exception.ExceptionCodes;
@@ -29,10 +30,10 @@ public class CustomerService {
         return customerRepository.save(customer);
     }
 
-    public Customer getCustomerById(Long customerId) throws SmsResourceNotFoundException {
+    public CustomerDTO getCustomerById(Long customerId) throws SmsResourceNotFoundException {
         Optional<Customer> result = customerRepository.findById(customerId);
         if (result.isPresent()) {
-            return result.get();
+            return CustomerDTO.build(result.get());
         } else {
             throw new SmsResourceNotFoundException("Customer not found : " + customerId,
                     ExceptionCodes.CUSTOMER_NOT_FOUND);

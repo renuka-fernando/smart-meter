@@ -1,48 +1,21 @@
-package org.renuka.sms.account.entity;
+package org.renuka.sms.account.dto;
 
-import javax.persistence.*;
-import java.util.HashSet;
+import org.renuka.sms.account.entity.Account;
+import org.renuka.sms.account.entity.Customer;
+
 import java.util.Set;
 
-@Entity
-@Table(name = "customer")
-public class Customer {
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+public class CustomerDTO {
     private Long id;
-
-    @Column(name = "password")
     private String password;
-
-    @Column(name = "fname")
     private String fname;
-
-    @Column(name = "lname")
     private String lname;
-
-    @Column(name = "email")
     private String email;
-
-    @Column(name = "contact_no")
     private String contactNo;
-
-    @Column(name = "address_line1")
     private String address_line1;
-
-    @Column(name = "address_line2")
     private String address_line2;
-
-    @Column(name = "city")
     private String city;
-
-    @ManyToMany
-    @JoinTable(
-            name = "customer_has_account",
-            joinColumns = {@JoinColumn(name = "customer_id")},
-            inverseJoinColumns = {@JoinColumn(name = "account_id")}
-    )
-    private Set<Account> accounts = new HashSet<>();
+    private Set<Account> accounts;
 
     public long getId() {
         return id;
@@ -122,5 +95,19 @@ public class Customer {
 
     public void setAccounts(Set<Account> accounts) {
         this.accounts = accounts;
+    }
+
+    public static CustomerDTO build(Customer customer) {
+        CustomerDTO customerDTO = new CustomerDTO();
+        customerDTO.setId(customer.getId());
+        customerDTO.setFname(customer.getFname());
+        customerDTO.setLname(customer.getLname());
+        customerDTO.setEmail(customer.getEmail());
+        customerDTO.setContactNo(customer.getContactNo());
+        customerDTO.setAddress_line1(customer.getAddress_line1());
+        customerDTO.setAddress_line2(customer.getAddress_line2());
+        customerDTO.setCity(customer.getCity());
+        customerDTO.setAccounts(customer.getAccounts());
+        return customerDTO;
     }
 }

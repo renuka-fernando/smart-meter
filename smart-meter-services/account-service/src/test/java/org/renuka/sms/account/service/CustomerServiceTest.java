@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.renuka.sms.account.dto.CustomerDTO;
 import org.renuka.sms.account.entity.Customer;
 import org.renuka.sms.account.repository.CustomerRepository;
 import org.renuka.sms.common.exception.SmsResourceNotFoundException;
@@ -27,7 +28,7 @@ public class CustomerServiceTest {
         Mockito.when(customerRepository.findById(12L)).thenReturn(optionalCustomer);
         CustomerService customerService = new CustomerService(customerRepository);
         try {
-            Customer customerById = customerService.getCustomerById(12L);
+            CustomerDTO customerById = customerService.getCustomerById(12L);
             Assert.assertEquals(customer.getAddress_line1(), customerById.getAddress_line1());
             Assert.assertEquals(customer.getAddress_line2(), customerById.getAddress_line2());
             Assert.assertEquals(customer.getCity(), customerById.getCity());
@@ -36,7 +37,6 @@ public class CustomerServiceTest {
             Assert.assertEquals(customer.getFname(), customerById.getFname());
             Assert.assertEquals(customer.getLname(), customerById.getLname());
             Assert.assertEquals(customer.getId(), customerById.getId());
-            Assert.assertEquals(customer.getPassword(), customerById.getPassword());
         } catch (SmsResourceNotFoundException e) {
             Assert.fail();
         }
