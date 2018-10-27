@@ -5,7 +5,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import PersonPinIcon from '@material-ui/icons/PersonPin';
-import HelpIcon from '@material-ui/icons/Help';
+import TrendingUp from '@material-ui/icons/TrendingUp';
 import ShoppingBasket from '@material-ui/icons/ShoppingBasket';
 import Typography from '@material-ui/core/Typography';
 import ArrowBack from '@material-ui/icons/ArrowBack';
@@ -75,7 +75,7 @@ class DetailsTab extends React.Component {
                             textColor="primary"
                         >
                             <Tab label="Client Details" icon={<PersonPinIcon/>}/>
-                            <Tab label="Item Four" icon={<HelpIcon/>}/>
+                            <Tab label="Consumption" icon={<TrendingUp/>}/>
                             <Tab label="Item Five" icon={<ShoppingBasket/>}/>
                         </Tabs>
                     </AppBar>
