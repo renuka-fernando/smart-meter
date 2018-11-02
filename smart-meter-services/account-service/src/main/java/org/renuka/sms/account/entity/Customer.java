@@ -12,9 +12,6 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "password")
-    private String password;
-
     @Column(name = "fname")
     private String fname;
 
@@ -50,14 +47,6 @@ public class Customer {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getFname() {

@@ -52,7 +52,7 @@ public class CustomerServiceTest {
         customer.setId(12L);
         customer.setEmail("renuka@xxxx.com");
         customer.setContactNo("0777000000");
-        customer.setPassword("XXXX");
+//        customer.setPassword("XXXX");
         return customer;
     }
 }
