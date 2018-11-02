@@ -1,6 +1,7 @@
 package org.renuka.sms.account.api;
 
 import org.renuka.sms.account.constants.AccountConstants;
+import org.renuka.sms.account.dto.CustomerRequestDTO;
 import org.renuka.sms.account.entity.Customer;
 import org.renuka.sms.account.service.CustomerService;
 import org.renuka.sms.common.dto.ErrorDTO;
@@ -63,7 +64,7 @@ public class CustomerAPI {
 
     @RequestMapping(method = RequestMethod.PUT, path = "/{customerId}")
     public ResponseEntity updateCustomerById(@PathVariable("customerId") Long customerId,
-                                             @RequestBody Customer customer) {
+                                             @RequestBody CustomerRequestDTO customer) {
         try {
             return ResponseEntity.ok(customerService.updateCustomerById(customerId, customer));
         } catch (SmsResourceNotFoundException e) {

@@ -1,6 +1,7 @@
 package org.renuka.sms.account.service;
 
 import org.renuka.sms.account.dto.CustomerDTO;
+import org.renuka.sms.account.dto.CustomerRequestDTO;
 import org.renuka.sms.account.entity.Customer;
 import org.renuka.sms.account.repository.CustomerRepository;
 import org.renuka.sms.common.exception.ExceptionCodes;
@@ -45,9 +46,12 @@ public class CustomerService {
         customerRepository.deleteById(customerId);
     }
 
-    public Customer updateCustomerById(Long customerId, Customer customer) throws SmsResourceNotFoundException {
-        getCustomerById(customerId); // check for existent and throw exception
-        customer.setId(customerId);
-        return customerRepository.save(customer);
+    public Customer updateCustomerById(Long customerId, CustomerRequestDTO customer) throws SmsResourceNotFoundException {
+        CustomerDTO customerById = getCustomerById(customerId);// check for existent and throw exception
+
+        Customer customerEntity = CustomerRequestDTO.getCustomerEntity(customer);
+        customerEntity.setId(customerId);
+        customerEntity.setAccounts(customerById.getAccounts());
+        return customerRepository.save(customerEntity);
     }
 }
