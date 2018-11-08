@@ -30,3 +30,6 @@ target
 *.iws
 *.ipr
 .idea/
+
+# Configurations
+twilio.conf
