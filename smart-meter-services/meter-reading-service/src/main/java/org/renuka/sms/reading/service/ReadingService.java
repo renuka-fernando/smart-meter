@@ -11,23 +11,31 @@ import org.renuka.sms.reading.dto.AccountReadingListDTO;
 import org.renuka.sms.reading.dto.MonthlyReadingDTO;
 import org.renuka.sms.reading.entity.Reading;
 import org.renuka.sms.reading.repository.ReadingRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.jms.*;
+import javax.jms.Queue;
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class ReadingService {
     private ReadingRepository readingRepository;
+    private ConnectionFactory jsmConnectionFactory;
+    private Session session;
+    private Logger logger = LoggerFactory.getLogger(ReadingService.class);
 
     @Autowired
-    public ReadingService(ReadingRepository readingRepository) {
+    public ReadingService(ReadingRepository readingRepository, ConnectionFactory jsmConnectionFactory) throws JMSException {
         this.readingRepository = readingRepository;
+        this.jsmConnectionFactory = jsmConnectionFactory;
+
+        Connection connection = jsmConnectionFactory.createConnection();
+        connection.start();
+        this.session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
     }
 
     public Reading addReading(Long accountId, String reading) throws ReadingValueDecryptionException {
@@ -35,6 +43,7 @@ public class ReadingService {
 
         if (decryptedReading.getAccount_id().equals(accountId)) {
             decryptedReading.setTimestamp(new Date());
+            analyse(decryptedReading);
             return readingRepository.save(decryptedReading);
         } else {
             throw new ReadingValueDecryptionException("Invalid Account ID", ExceptionCodes.INVALID_ACCOUNT_ID);
@@ -111,5 +120,20 @@ public class ReadingService {
             throw new ReadingValueDecryptionException("Failed to parse Reading to JSON",
                     ExceptionCodes.JSON_PRCESSING_ERROR);
         }
+    }
+
+    private void analyse(Reading decryptedReading) {
+        double value = decryptedReading.getReading();
+        // TODO: this check is done to get the average and hard coded for prototype
+        if (value > 0.6)
+            // TODO: try catch for demo purpose should handle this error
+            try {
+                Queue notifications = this.session.createQueue("notifications");
+                MessageProducer producer = session.createProducer(notifications);
+                Message message = session.createTextMessage("High usage of electricity");
+                producer.send(message);
+            } catch (JMSException e) {
+                logger.error("Error while creating JSM queue", e);
+            }
     }
 }

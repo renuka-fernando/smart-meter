@@ -109,6 +109,12 @@
             <version>0.8.2</version>
             <scope>test</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.activemq/activemq-client -->
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-client</artifactId>
+            <version>5.15.7</version>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
