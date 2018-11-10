@@ -23,8 +23,36 @@ service<jms:Consumer> jmsListener bind consumerEndpoint {
     onMessage(endpoint consumer, jms:Message message) {
         match (message.getTextMessageContent()) {
             string messageText => {
-                log:printInfo("Message : " + messageText);
-                sendSms(untaint messageText, "766678752");
+                // Message Format {number:notification}
+                string number = "";
+                string notification = "";
+
+                string[] parts = messageText.split(":");
+                var numberVar = parts[0].base64Decode();
+                var notificationVar = parts[1].base64Decode();
+
+                match numberVar {
+                    string num => {
+                        number = num;
+                    }
+                    error err => {
+                        log:printError(err.message);
+                    }
+                }
+
+                match notificationVar {
+                    string msg => {
+                        notification = msg;
+                    }
+                    error err => {
+                        log:printError(err.message);
+                    }
+                }
+
+                if (number != "" && notification != "") {
+                    log:printInfo("Message : " + notification);
+                    sendSms(untaint notification, untaint number);
+                }
             }
             error e => log:printError("Error occurred while reading message",
                 err = e);

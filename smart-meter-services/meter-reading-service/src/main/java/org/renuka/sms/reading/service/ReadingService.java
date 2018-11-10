@@ -133,6 +133,7 @@ public class ReadingService {
     private void analyse(Reading decryptedReading) {
         double value = decryptedReading.getReading();
         // TODO: this check is done to get the average and hard coded for prototype
+        // TODO: Should read the previous value and check. This is for prototype
         if (value >= 0.4) {
             // TODO: try catch for demo purpose should handle this error
             Date now = new Date();
@@ -140,10 +141,17 @@ public class ReadingService {
             try {
                 Queue notifications = this.session.createQueue("notifications");
                 MessageProducer producer = session.createProducer(notifications);
-                Message message = session.createTextMessage("High usage of electricity at " + now.toString());
+                // TODO: for prototype
+                String number = "766678752";
+                String messageString = "High usage of electricity at " + now.toString();
+
+                String encodedMessage = new StringBuilder(Base64.getEncoder().encodeToString(number.getBytes()))
+                        .append(":")
+                        .append(Base64.getEncoder().encodeToString(messageString.getBytes())).toString();
+                Message message = session.createTextMessage(encodedMessage);
                 producer.send(message);
             } catch (JMSException e) {
-                logger.error("Error while creating JSM queue", e);
+                logger.error("Error while creating JSM queue for sms notifications", e);
             }
         }
     }
