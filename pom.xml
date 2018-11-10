@@ -5,6 +5,7 @@
     <groupId>org.renuka.smart-meter</groupId>
     <artifactId>smart-meter</artifactId>
     <version>1.0.0</version>
+    <packaging>pom</packaging>
 
     <modules>
         <module>smart-meter-services</module>

@@ -17,5 +17,6 @@
         <module>account-service</module>
         <module>meter-reading-service</module>
         <module>payment-service</module>
+        <module>notification-service</module>
     </modules>
 </project>
