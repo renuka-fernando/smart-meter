@@ -2,6 +2,7 @@ import ballerina/http;
 import ballerina/config;
 import ballerina/log;
 import ballerina/jms;
+import config;
 
 endpoint http:Listener listener {
     port: 9100
