@@ -1,16 +1,23 @@
 # Smart Meter
+
 Smart Energy Monitoring System
 ![Smart Meter Solution and Addressed Problems](images/poster.png)
 Power consumers (users) cannot easily examine their consumption. It is very hard to manage their usage even when getting red bills with reminders.
 
 ## 1. Objective
+
 The aim of the project is to make a green world, which is sustainable for many centuries with energy conservation, and make people’s life easy with managing expenditure for energy consumption.
+
 - With letting electricity consumers to know their real-time and previous consumptions repeatedly to motivate them to reduce their electricity consumption.
 - Let consumers to use less electricity in peak times (CEB generates more power using various power resources).
 - Improve accuracy and speed of the process of billing.
 
 ## 2. Architecture
+
+![Smart Meter Microservice Architecture](images/architecture.png)
+
 ### 2.1 Components
+
 Find source code repositories of each component from the link.
 
 1. [Smart Meter Services](smart-meter-services/README.md) - Micro Services of Smart-Meter
