@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PreDestroy;
 import javax.jms.*;
 import javax.jms.Queue;
 import java.io.IOException;
@@ -26,6 +27,7 @@ public class ReadingService {
     private ReadingRepository readingRepository;
     private ConnectionFactory jsmConnectionFactory;
     private Session session;
+    private Connection connection;
     private Logger logger = LoggerFactory.getLogger(ReadingService.class);
 
     @Autowired
@@ -33,9 +35,15 @@ public class ReadingService {
         this.readingRepository = readingRepository;
         this.jsmConnectionFactory = jsmConnectionFactory;
 
-        Connection connection = jsmConnectionFactory.createConnection();
+        this.connection = jsmConnectionFactory.createConnection();
         connection.start();
         this.session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+    }
+
+    @PreDestroy
+    public void destroy() throws JMSException {
+        this.session.close();
+        this.connection.close();
     }
 
     public Reading addReading(Long accountId, String reading) throws ReadingValueDecryptionException {
