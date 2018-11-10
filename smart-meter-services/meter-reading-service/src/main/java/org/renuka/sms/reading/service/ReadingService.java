@@ -125,15 +125,18 @@ public class ReadingService {
     private void analyse(Reading decryptedReading) {
         double value = decryptedReading.getReading();
         // TODO: this check is done to get the average and hard coded for prototype
-        if (value > 0.6)
+        if (value >= 0.4) {
             // TODO: try catch for demo purpose should handle this error
+            Date now = new Date();
+
             try {
                 Queue notifications = this.session.createQueue("notifications");
                 MessageProducer producer = session.createProducer(notifications);
-                Message message = session.createTextMessage("High usage of electricity");
+                Message message = session.createTextMessage("High usage of electricity at " + now.toString());
                 producer.send(message);
             } catch (JMSException e) {
                 logger.error("Error while creating JSM queue", e);
             }
+        }
     }
 }

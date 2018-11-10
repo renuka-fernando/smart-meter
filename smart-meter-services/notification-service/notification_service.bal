@@ -2,17 +2,12 @@ import ballerina/http;
 import ballerina/config;
 import ballerina/log;
 import ballerina/jms;
-import config;
-
-endpoint http:Listener listener {
-    port: 9100
-};
 
 endpoint jms:SimpleQueueReceiver consumerEndpoint {
-    initialContextFactory:"org.apache.activemq.jndi.ActiveMQInitialContextFactory",
-    providerUrl:"tcp://localhost:61616",
-    acknowledgementMode:"AUTO_ACKNOWLEDGE",
-    queueName:"notifications"
+    initialContextFactory: "org.apache.activemq.jndi.ActiveMQInitialContextFactory",
+    providerUrl: "tcp://localhost:61616",
+    acknowledgementMode: "AUTO_ACKNOWLEDGE",
+    queueName: "notifications"
 };
 
 endpoint http:Client twilioEp {
@@ -27,29 +22,37 @@ endpoint http:Client twilioEp {
 service<jms:Consumer> jmsListener bind consumerEndpoint {
     onMessage(endpoint consumer, jms:Message message) {
         match (message.getTextMessageContent()) {
-            string messageText => log:printInfo("Message : " + messageText);
+            string messageText => {
+                log:printInfo("Message : " + messageText);
+                sendSms(untaint messageText, "766678752");
+            }
             error e => log:printError("Error occurred while reading message",
-                                       err=e);
+                err = e);
         }
     }
 }
 
-service<http:Service> notificationService bind listener {
-    sendSms (endpoint caller, http:Request request) {
-        http:Request twilioRequest = new;
-        twilioRequest.setPayload("From=%2B19852383148&To=%2B94766678752&Body=Hello Ballerina!");
-        twilioRequest.setHeader("Content-type","application/x-www-form-urlencoded");
+function sendSms(string message, string clientNumber) {
+    http:Request twilioRequest = new;
+    twilioRequest.setPayload("From=%2B19852383148&To=%2B94" + clientNumber + "&Body=\n" + message + ".");
+    twilioRequest.setHeader("Content-type", "application/x-www-form-urlencoded");
 
-        var response = twilioEp->post("/", twilioRequest);
-        match response {
-            http:Response resp => {
-                _ = caller->respond(resp);
+    var response = twilioEp->post("/", twilioRequest);
+    match response {
+        http:Response resp => {
+            var js = resp.getJsonPayload();
+            match js {
+                json msg => {
+                    log:printInfo(msg.toString());
+                }
+                error err => {
+                    log:printError(err.message);
+                }
             }
-            error err=> {
-                http:Response resp = new;
-                resp.setPayload(err.message);
-                _ = caller->respond(resp);
-            }
+            log:printInfo("Message sent to: " + clientNumber);
+        }
+        error err => {
+            log:printError(err.message);
         }
     }
 }
